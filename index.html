@@ -5,13 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>FTEAM — Presale</title>
 
-  <!-- Police & Favicon -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="logo-fteam.png">
 
-  <!-- Styles -->
   <style>
     :root{--blue:#002395;--white:#fff;--red:#ED2939;--bg:#0b0f19;--card:#12182a;--muted:#b9c6ff99;--line:#2636667a}
     *{box-sizing:border-box}
@@ -73,22 +71,12 @@
           <div class="kpi"><span class="muted">Statut</span><b>100% atteint</b></div>
         </div>
 
-        <!-- Barre figée à 100% et texte figé -->
         <div class="row" id="progressRow1">
           <div style="flex:1">
             <div class="muted">Progression</div>
             <div class="bar"><i id="bar1" style="width:100%"></i></div>
             <div class="muted" id="raised1">20.00 SOL levés / objectif 20 SOL</div>
           </div>
-        </div>
-
-        <!-- Bloc d’envoi MASQUÉ (adresse retirée) -->
-        <div class="row" id="sendBlock1" style="display:none">
-          <div class="input" style="flex:1">
-            <input id="payAddr1" readonly value="" />
-            <button class="copy btn" disabled>📋 Copier</button>
-          </div>
-          <button class="btn" disabled>Ouvrir dans Phantom (mobile)</button>
         </div>
       </section>
 
@@ -117,7 +105,8 @@
         <!-- Bloc d’envoi #2 : masqué jusqu’au début -->
         <div id="sendBlock2" style="display:none">
           <p class="muted" style="margin:8px 0 10px">
-            À l’ouverture, envoyez <b>SOL</b> depuis Phantom/Solflare vers l’adresse ci-dessous. Les tokens FTEAM seront distribués à la clôture.
+            À l’ouverture, envoyez <b>SOL</b> depuis Phantom/Solflare vers l’adresse ci-dessous.
+            <br><b>Aucun minimum d’investissement</b> — vous pouvez participer avec le montant SOL de votre choix.
           </p>
 
           <div class="row" style="align-items:center">
@@ -146,124 +135,79 @@
     </footer>
   </div>
 
-  <!-- Script -->
   <script>
-    /* ====== Configuration ====== */
     document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Prévente #1 — figée (terminée)
-    const FIRST_GOAL_SOL = 20;
-
-    // Prévente #2 — paramètres
-    const SECOND_RATE_TXT = "1 SOL = 700 000 FTEAM";
-    const SECOND_GOAL_SOL = 10;
-
-    // Début officiel : lundi 13 octobre 2025, 20:00 heure de Paris = 18:00:00 UTC
+    const SECOND_WALLET = "A8vTWrQQWsSkHRLqwr4Nrv8xvC8RMZAUAiXfZCkf6ikh";
     const SECOND_SALE_START_UTC = new Date("2025-10-13T18:00:00Z").getTime();
 
-    // Nouveau wallet (ne doit PAS s'afficher avant l'heure)
-    const SECOND_WALLET = "A8vTWrQQWsSkHRLqwr4Nrv8xvC8RMZAUAiXfZCkf6ikh";
-
-    /* ====== UI : helpers ====== */
     function copyAddr(selOrId){
-      const el = typeof selOrId==="string" ? document.querySelector(selOrId) : selOrId;
-      if(!el) return;
-      const v = el.value||el.textContent||"";
+      const el = typeof selOrId==="string"?document.querySelector(selOrId):selOrId;
+      if(!el)return;
+      const v=el.value||el.textContent||"";
       navigator.clipboard.writeText(v).then(()=>{
-        const btn = el.closest(".row")?.querySelector(".copy") || document.querySelector(".copy");
-        if(btn){ const old = btn.textContent; btn.textContent="✔ Copié"; setTimeout(()=>btn.textContent=old,1200); }
+        const btn=el.closest(".row")?.querySelector(".copy");
+        if(btn){const old=btn.textContent;btn.textContent="✔ Copié";setTimeout(()=>btn.textContent=old,1200);}
       });
     }
 
-    /* ====== Compte à rebours #2 ====== */
-    function fmt(n){ return String(n).padStart(2,"0"); }
+    function fmt(n){return String(n).padStart(2,"0");}
     function updateCountdown2(){
-      const now = Date.now();
-      if (now >= SECOND_SALE_START_UTC){
-        // Ouverture : on révèle le wallet #2 et les liens
-        revealSecondSale();
-        return; // on arrête d'afficher le compte à rebours
-      }
-      let diff = Math.max(0, SECOND_SALE_START_UTC - now);
-      const d = Math.floor(diff/86400000); diff%=86400000;
-      const h = Math.floor(diff/3600000);  diff%=3600000;
-      const m = Math.floor(diff/60000);    diff%=60000;
-      const s = Math.floor(diff/1000);
-      document.getElementById('count2').textContent =
-        `${fmt(d)}j ${fmt(h)}h ${fmt(m)}m ${fmt(s)}s`;
+      const now=Date.now();
+      if(now>=SECOND_SALE_START_UTC){revealSecondSale();return;}
+      let diff=Math.max(0,SECOND_SALE_START_UTC-now);
+      const d=Math.floor(diff/86400000);diff%=86400000;
+      const h=Math.floor(diff/3600000);diff%=3600000;
+      const m=Math.floor(diff/60000);diff%=60000;
+      const s=Math.floor(diff/1000);
+      document.getElementById('count2').textContent=`${fmt(d)}j ${fmt(h)}h ${fmt(m)}m ${fmt(s)}s`;
     }
-    setInterval(updateCountdown2, 1000); updateCountdown2();
+    setInterval(updateCountdown2,1000);updateCountdown2();
 
-    /* ====== Deep links Phantom / Solana Pay (pour #2 quand ça ouvre) ====== */
     function buildLinksFor(address){
-      const phantomUL = new URL('https://phantom.app/ul/v1/pay');
-      phantomUL.searchParams.set('recipient', address);
-      phantomUL.searchParams.set('network', 'mainnet-beta');
-      phantomUL.searchParams.set('label', 'FTEAM Presale #2');
-      phantomUL.searchParams.set('message', 'Participer à la présale FTEAM #2');
-
-      const solanaPayHref = 'solana:' + address + '?label=FTEAM%20Presale%20%232&message=Participer';
-
-      return { phantomUL: phantomUL.toString(), solanaPay: solanaPayHref };
+      const phantomUL=new URL('https://phantom.app/ul/v1/pay');
+      phantomUL.searchParams.set('recipient',address);
+      phantomUL.searchParams.set('network','mainnet-beta');
+      phantomUL.searchParams.set('label','FTEAM Presale #2');
+      phantomUL.searchParams.set('message','Participer à la présale FTEAM #2');
+      const solanaPayHref='solana:'+address+'?label=FTEAM%20Presale%20%232';
+      return{phantomUL:phantomUL.toString(),solanaPay:solanaPayHref};
     }
 
     function openPhantom2(){
-      const address = document.getElementById('payAddr2').value;
-      if(!address) return;
-      const { phantomUL, solanaPay } = buildLinksFor(address);
-      const ua = navigator.userAgent || '';
-      const isMobile  = /Android|iPhone|iPad|iPod/i.test(ua);
-      const isAndroid = /Android/i.test(ua);
-      if (isAndroid){
-        const intent = 'intent://' + phantomUL.replace('https://','') + '#Intent;scheme=https;package=app.phantom;end';
-        window.location.href = intent;
-        setTimeout(()=>{ window.location.href = solanaPay; }, 1200);
-        return;
+      const address=document.getElementById('payAddr2').value;
+      if(!address)return;
+      const{phantomUL,solanaPay}=buildLinksFor(address);
+      const ua=navigator.userAgent||'';
+      const isMobile=/Android|iPhone|iPad|iPod/i.test(ua);
+      const isAndroid=/Android/i.test(ua);
+      if(isAndroid){
+        const intent='intent://'+phantomUL.replace('https://','')+'#Intent;scheme=https;package=app.phantom;end';
+        window.location.href=intent;
+        setTimeout(()=>{window.location.href=solanaPay;},1200);return;
       }
-      if (isMobile){
-        window.location.href = phantomUL;
-        setTimeout(()=>{ window.location.href = solanaPay; }, 1200);
-      } else {
+      if(isMobile){
+        window.location.href=phantomUL;
+        setTimeout(()=>{window.location.href=solanaPay;},1200);
+      }else{
         alert("Sur ordinateur, ouvrez l’extension Phantom et collez l’adresse.");
         window.open('https://phantom.app/','_blank');
       }
     }
 
-    /* ====== Révélation automatique à l'heure ====== */
-    let revealed = false;
+    let revealed=false;
     function revealSecondSale(){
-      if (revealed) return;
-      revealed = true;
-
-      // Renseigne l’adresse
-      const addrEl = document.getElementById('payAddr2');
-      addrEl.value = SECOND_WALLET;
-
-      // Construit les liens
-      const { phantomUL, solanaPay } = buildLinksFor(SECOND_WALLET);
-      document.getElementById('phantomUL2').href = phantomUL;
-      document.getElementById('solanaPay2').href = solanaPay;
-
-      // Affiche le bloc d’envoi #2 et masque l’alerte
-      document.getElementById('sendBlock2').style.display = 'block';
-      document.getElementById('preOpenMsg').style.display = 'none';
-
-      // Remplace le compte à rebours par un message “Ouvert”
-      const cRow = document.getElementById('countdownRow2');
-      cRow.innerHTML = '<div class="banner" style="width:100%;margin:0">La présale #2 est <b>OUVERTE</b> — vous pouvez participer.</div>';
+      if(revealed)return;revealed=true;
+      const addrEl=document.getElementById('payAddr2');
+      addrEl.value=SECOND_WALLET;
+      const{phantomUL,solanaPay}=buildLinksFor(SECOND_WALLET);
+      document.getElementById('phantomUL2').href=phantomUL;
+      document.getElementById('solanaPay2').href=solanaPay;
+      document.getElementById('sendBlock2').style.display='block';
+      document.getElementById('preOpenMsg').style.display='none';
+      document.getElementById('countdownRow2').innerHTML='<div class="banner" style="width:100%;margin:0">La présale #2 est <b>OUVERTE</b> — vous pouvez participer sans minimum.</div>';
     }
 
-    // Si quelqu’un ouvre la page APRÈS l’heure, on révèle immédiatement
-    if (Date.now() >= SECOND_SALE_START_UTC){ revealSecondSale(); }
-
-    /* ====== Sécurisation visuelle de la 1ʳᵉ présale (adresse masquée) ====== */
-    (function lockFirstSale(){
-      document.getElementById('bar1').style.width = '100%';
-      document.getElementById('raised1').textContent = '20.00 SOL levés / objectif 20 SOL';
-      // On s’assure que le bloc d’envoi de la #1 reste bien invisible
-      const sb1 = document.getElementById('sendBlock1');
-      if (sb1) sb1.style.display = 'none';
-    })();
+    if(Date.now()>=SECOND_SALE_START_UTC){revealSecondSale();}
   </script>
 </body>
 </html>
