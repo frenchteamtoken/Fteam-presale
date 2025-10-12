@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
@@ -119,7 +119,6 @@
   </div>
 
 <script>
-  // Configs
   const PRESALE_ADDRESS = "85W5dCWr5bCGv1dfcELu1rnFR6BVdXVi9QU1yMTehVm1";
   const RAISE_GOAL_SOL = 20;
   const SALE_START = new Date("2025-10-12T00:00:00Z").getTime();
@@ -127,7 +126,6 @@
 
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // Deep links
   const phantomUL = new URL('https://phantom.app/ul/v1/pay');
   phantomUL.searchParams.set('recipient', PRESALE_ADDRESS);
   phantomUL.searchParams.set('network', 'mainnet-beta');
@@ -160,7 +158,7 @@
     }
   }
 
-  // Countdown + end banner
+  // Countdown
   function updateCountdown(){
     const now = Date.now();
     if (now > SALE_END){
@@ -174,85 +172,99 @@
     const h = Math.floor(diff/3600000); diff%=3600000;
     const m = Math.floor(diff/60000); diff%=60000;
     const s = Math.floor(diff/1000);
-    document.getElementById('count').textContent = String(d).padStart(2,'0')+'j '+String(h).padStart(2,'0')+'h '+String(m).padStart(2,'0')+'m '+String(s).padStart(2,'0')+'s';
+    document.getElementById('count').textContent = `${d}j ${h}h ${m}m ${s}s`;
   }
   setInterval(updateCountdown, 1000); updateCountdown();
 
-  // === Compteur (RPC Helius + fallback + debug mobile) =====================
+  // === Compteur (RPC + cache)
   const RPC_URLS = [
+    "https://rpc.ankr.com/solana",
     "https://mainnet.helius-rpc.com/?api-key=8ff2e734-290b-483b-a65b-c90e0ccdb1ca",
-    "https://rpc.helius.xyz/?api-key=8ff2e734-290b-483b-a65b-c90e0ccdb1ca",
-    "https://api.mainnet-beta.solana.com"
+    "https://rpc.helius.xyz/?api-key=8ff2e734-290b-483b-a65b-c90e0ccdb1ca"
   ];
   const LAMPORTS_PER_SOL = 1_000_000_000;
   const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
-  function showErr(t){ const el=document.getElementById("counterErr"); el.textContent="⛔ "+t; el.style.display="block"; }
+  const CACHE_KEY = "fteam_raised_cache_v1";
 
-  async function rpc(method, params){
+  function showErr(t){ const el=document.getElementById("counterErr"); el.textContent="⛔ "+t; el.style.display="block"; }
+  function readCache(){ try{return JSON.parse(localStorage.getItem(CACHE_KEY)||"null");}catch{return null;} }
+  function writeCache(value){ try{localStorage.setItem(CACHE_KEY,JSON.stringify({value,ts:Date.now()}));}catch{} }
+
+  async function rpc(method,params){
     let lastErr;
     for(const url of RPC_URLS){
       try{
         const r = await fetch(url,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method,params})});
-        if(!r.ok){ const txt=await r.text().catch(()=> ""); throw new Error(`HTTP ${r.status} via ${new URL(url).host} → ${txt.slice(0,120)}`); }
-        const j = await r.json();
-        if(j.error) throw new Error(`RPC ${j.error.code} via ${new URL(url).host} → ${j.error.message}`);
-        return j.result;
-      }catch(e){ lastErr=e; showErr(`Essai sur ${new URL(url).host} échoué : ${e.message}`); }
+        if(!r.ok){const txt=await r.text().catch(()=> "");throw new Error(`HTTP ${r.status} via ${new URL(url).host}`);}
+        const j = await r.json();if(j.error)throw new Error(`RPC ${j.error.code}: ${j.error.message}`);return j.result;
+      }catch(e){lastErr=e;}
     }
-    throw lastErr || new Error("Tous les RPC ont échoué");
+    throw lastErr||new Error("Tous les RPC ont échoué");
   }
 
-  async function* signaturesForAddress(address, untilTsMin){
+  async function* signaturesForAddress(address,untilTsMin){
     let before=null;
     while(true){
-      const res = await rpc("getSignaturesForAddress", [address,{limit:1000,before,commitment:"confirmed"}]);
-      if(!res || !res.length) break;
-      for(const s of res) yield s;
-      before = res[res.length-1].signature;
-      const lastTs = (res[res.length-1].blockTime||0)*1000;
-      if(untilTsMin && lastTs && lastTs < untilTsMin) break;
+      const res=await rpc("getSignaturesForAddress",[address,{limit:1000,before,commitment:"confirmed"}]);
+      if(!res||!res.length)break;
+      for(const s of res)yield s;
+      before=res[res.length-1].signature;
+      const lastTs=(res[res.length-1].blockTime||0)*1000;
+      if(untilTsMin&&lastTs&&lastTs<untilTsMin)break;
       await sleep(250);
     }
   }
 
-  // Version compatible Helius: getTransaction unitaire
   async function computeRaisedSOL(){
-    let lamportsIn=0;
-    const sigs=[];
-    for await(const s of signaturesForAddress(PRESALE_ADDRESS, SALE_START)){
+    let lamportsIn=0;const sigs=[];
+    for await(const s of signaturesForAddress(PRESALE_ADDRESS,SALE_START)){
       const ts=(s.blockTime||0)*1000;
-      if(ts && ts>SALE_END) continue;
-      if(ts && ts<SALE_START) break;
-      if(s.err) continue;
+      if(ts&&ts>SALE_END)continue;
+      if(ts&&ts<SALE_START)break;
+      if(s.err)continue;
       sigs.push(s.signature);
-      if(sigs.length>=500) break;
+      if(sigs.length>=500)break;
     }
     for(const sig of sigs){
-      const tx = await rpc("getTransaction",[sig,{maxSupportedTransactionVersion:0,commitment:"confirmed",encoding:"jsonParsed"}]);
-      if(!tx || tx.meta?.err) continue;
+      const tx=await rpc("getTransaction",[sig,{maxSupportedTransactionVersion:0,commitment:"confirmed",encoding:"jsonParsed"}]);
+      if(!tx||tx.meta?.err)continue;
       const tms=(tx.blockTime||0)*1000;
-      if(tms && (tms<SALE_START || tms>SALE_END)) continue;
+      if(tms&&(tms<SALE_START||tms>SALE_END))continue;
       const insts=tx.transaction?.message?.instructions||[];
       for(const ins of insts){
         const info=ins.parsed?.info;
-        if(ins.program==="system" && ins.parsed?.type==="transfer" && info?.destination===PRESALE_ADDRESS){
-          lamportsIn += Number(info.lamports||0);
+        if(ins.program==="system"&&ins.parsed?.type==="transfer"&&info?.destination===PRESALE_ADDRESS){
+          lamportsIn+=Number(info.lamports||0);
         }
       }
     }
-    return lamportsIn / LAMPORTS_PER_SOL;
+    return lamportsIn/LAMPORTS_PER_SOL;
   }
 
   async function updateRaisedUI(){
     try{
-      const raised = await computeRaisedSOL();
-      const pct = Math.min(100,(raised/RAISE_GOAL_SOL)*100);
-      document.getElementById("raised").textContent = raised.toFixed(2)+" SOL levés / objectif "+RAISE_GOAL_SOL+" SOL";
-      document.getElementById("bar").style.width = pct.toFixed(1)+"%";
+      const raised=await computeRaisedSOL();
+      writeCache(raised);
+      const pct=Math.min(100,(raised/RAISE_GOAL_SOL)*100);
+      document.getElementById("raised").textContent=raised.toFixed(2)+" SOL levés / objectif "+RAISE_GOAL_SOL+" SOL";
+      document.getElementById("bar").style.width=pct.toFixed(1)+"%";
       document.getElementById("counterErr").style.display="none";
-    }catch(e){ showErr(e.message || "Compteur indisponible (RPC). Réessaie plus tard."); }
+    }catch(e){
+      const cached=readCache();
+      if(cached){
+        const raised=cached.value;
+        const pct=Math.min(100,(raised/RAISE_GOAL_SOL)*100);
+        document.getElementById("raised").textContent=raised.toFixed(2)+" SOL levés / objectif "+RAISE_GOAL_SOL+" SOL (cache)";
+        document.getElementById("bar").style.width=pct.toFixed(1)+"%";
+        showErr(e.message);
+      }else{
+        showErr(e.message||"Compteur indisponible (RPC). Réessaie plus tard.");
+      }
+    }
   }
-  updateRaisedUI(); setInterval(updateRaisedUI,180000);
+
+  updateRaisedUI();
+  setInterval(updateRaisedUI, 180000); // toutes les 3 minutes
 </script>
 </body>
 </html>
