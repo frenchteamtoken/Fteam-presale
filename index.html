@@ -185,10 +185,21 @@
   const LAMPORTS_PER_SOL = 1_000_000_000;
   const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
 
-  async function rpc(method, params){
-    const r = await fetch(RPC_URL, {method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method,params})});
-    const j = await r.json(); if(j.error) throw new Error(j.error.message||"RPC"); return j.result;
+async function rpc(method, params){
+  const r = await fetch(RPC_URL, {
+    method: "POST",
+    headers: {"content-type": "application/json"},
+    body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params })
+  });
+  // Si le serveur répond 404/403/etc., on affiche le texte brut pour comprendre
+  if (!r.ok) {
+    const txt = await r.text().catch(()=> "");
+    throw new Error(`HTTP ${r.status}: ${txt.slice(0,200)}`);
   }
+  const j = await r.json().catch(()=> ({}));
+  if (j.error) throw new Error(`RPC ${j.error.code}: ${j.error.message}`);
+  return j.result;
+}
 
   async function* signaturesForAddress(address, untilTsMin){
     let before=null;
