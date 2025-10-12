@@ -204,7 +204,9 @@ async function rpc(method, params){
   async function* signaturesForAddress(address, untilTsMin){
     let before=null;
     while(true){
-      const res = await rpc("getSignaturesForAddress", [address,{limit:1000,before}]);
+     const res = await rpc("getSignaturesForAddress", [
+  address, { limit: 1000, before, commitment: "confirmed" }
+]);
       if(!res || !res.length) break;
       for(const s of res) yield s;
       before = res[res.length-1].signature;
@@ -227,7 +229,9 @@ async function rpc(method, params){
     }
     for(let i=0;i<sigs.length;i+=100){
       const chunk=sigs.slice(i,i+100);
-      const txs = await rpc("getParsedTransactions",[chunk,{maxSupportedTransactionVersion:0}]);
+      const txs = await rpc("getParsedTransactions", [
+  chunk, { maxSupportedTransactionVersion: 0, commitment: "confirmed" }
+]);
       for(const tx of txs||[]){
         if(!tx || tx.meta?.err) continue;
         const tms=(tx.blockTime||0)*1000;
