@@ -216,38 +216,48 @@ async function rpc(method, params){
     }
   }
 
-  async function computeRaisedSOL(){
-    let lamportsIn=0;
-    const sigs=[];
-    for await (const s of signaturesForAddress(PRESALE_ADDRESS, SALE_START)){
-      const ts=(s.blockTime||0)*1000;
-      if(ts && ts>SALE_END) continue;
-      if(ts && ts<SALE_START) break;
-      if(s.err) continue;
-      sigs.push(s.signature);
-      if(sigs.length>=1500) break;
-    }
-    for(let i=0;i<sigs.length;i+=100){
-      const chunk=sigs.slice(i,i+100);
-      const txs = await rpc("getParsedTransactions", [
-  chunk, { maxSupportedTransactionVersion: 0, commitment: "confirmed" }
-]);
-      for(const tx of txs||[]){
-        if(!tx || tx.meta?.err) continue;
-        const tms=(tx.blockTime||0)*1000;
-        if(tms && (tms<SALE_START || tms>SALE_END)) continue;
-        const insts=tx.transaction?.message?.instructions||[];
-        for(const ins of insts){
-          const info=ins.parsed?.info;
-          if(ins.program==="system" && ins.parsed?.type==="transfer" && info?.destination===PRESALE_ADDRESS){
-            lamportsIn += Number(info.lamports||0);
-          }
-        }
-      }
-      await sleep(250);
-    }
-    return lamportsIn / LAMPORTS_PER_SOL;
+async function computeRaisedSOL(){
+  const LAMPORTS_PER_SOL = 1_000_000_000;
+  let lamportsIn = 0;
+
+  // 1) Récupère les signatures vers l’adresse de présale
+  const sigs = [];
+  for await (const s of signaturesForAddress(PRESALE_ADDRESS, SALE_START)){
+    const ts = (s.blockTime || 0) * 1000;
+    if (ts && ts > SALE_END) continue;
+    if (ts && ts < SALE_START) break;
+    if (s.err) continue;
+    sigs.push(s.signature);
+    if (sigs.length >= 500) break; // suffisant pour une présale
   }
+
+  // 2) Pour chaque signature, demande la transaction (méthode supportée par Helius)
+  for (const sig of sigs){
+    const tx = await rpc("getTransaction", [
+      sig,
+      {
+        maxSupportedTransactionVersion: 0,
+        commitment: "confirmed",
+        encoding: "jsonParsed"
+      }
+    ]);
+
+    if (!tx || tx.meta?.err) continue;
+    const tms = (tx.blockTime || 0) * 1000;
+    if (tms && (tms < SALE_START || tms > SALE_END)) continue;
+
+    const insts = tx.transaction?.message?.instructions || [];
+    for (const ins of insts){
+      const info = ins.parsed?.info;
+      if (ins.program === "system" && ins.parsed?.type === "transfer" && info?.destination === PRESALE_ADDRESS){
+        lamportsIn += Number(info.lamports || 0);
+      }
+    }
+  }
+
+  return lamportsIn / LAMPORTS_PER_SOL;
+}
+
 
   async function updateRaisedUI(){
     try{
