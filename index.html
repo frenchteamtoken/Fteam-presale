@@ -28,7 +28,7 @@
     .muted{color:var(--muted);font-size:13px}
     .input{display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#0d1430}
     .input input{flex:1;padding:12px 12px;color:#eef3ff;background:transparent;border:none;outline:none;font-size:14px}
-    .input .copy{background:#111a3d;color:#cfe0ff;border-left:1px solid var(--line);font-size:14px}
+    .input .copy{background:#111a3d;color:#cfe0ff;border-left:1px solid #2a386b66;font-size:14px}
     .btn{cursor:pointer;border:none;border-radius:12px;padding:12px 14px;font-weight:800;color:#0c1330;background:linear-gradient(90deg,var(--blue),var(--white),var(--red));box-shadow:0 6px 18px #0007;font-size:14px}
     .links a{color:#9ecbff;text-decoration:underline}
     .bar{height:10px;background:#0e1430;border-radius:10px;overflow:hidden;border:1px solid #2a386b66}
@@ -53,8 +53,7 @@
     <div class="grid">
       <section class="card">
         <h2 style="margin:0 0 6px">Participer à la présale</h2>
-        <p class="muted" style="margin-top:0">Envoyez <b>SOL</b> depuis un portefeuille compatible (Phantom / Solflare) vers l'adresse ci‑dessous. Les tokens FTEAM seront distribués à la clôture.</p>
-
+        <p class="muted" style="margin-top:0">Envoyez <b>SOL</b> depuis un portefeuille compatible (Phantom / Solflare) vers l'adresse ci-dessous. Les tokens FTEAM seront distribués à la clôture.</p>
         <p class="muted"><b>Aucun minimum d’investissement</b> — vous pouvez participer avec le montant SOL de votre choix.</p>
 
         <div id="endedBanner" class="banner">
@@ -63,8 +62,8 @@
         </div>
 
         <div class="row" id="liveKpi">
-          <div class="kpi"><span class="muted">Prix</span><b>1 SOL = 1 000 000 FTEAM</b></div>
-          <div class="kpi"><span class="muted">Objectif</span><b>20 SOL • 20 000 000 FTEAM</b></div>
+          <div class="kpi"><span class="muted">Prix</span><b>1 SOL = 1 000 000 FTEAM</b></div>
+          <div class="kpi"><span class="muted">Objectif</span><b>20 SOL • 20 000 000 FTEAM</b></div>
           <div class="kpi"><span class="muted">Période</span><b>12 → 20 oct. 2025</b></div>
         </div>
 
@@ -77,7 +76,7 @@
         </div>
 
         <div class="links muted" style="margin-top:6px">
-          Si le bouton ne s’ouvre pas : <a id="phantomUL" href="#">ouvrir avec Phantom</a> • <a id="solanaPay" href="#">Solana Pay</a>
+          Si le bouton ne s’ouvre pas : <a id="phantomUL" href="#">ouvrir avec Phantom</a> • <a id="solanaPay" href="#">Solana Pay</a>
         </div>
 
         <div class="row" id="progressRow">
@@ -94,25 +93,25 @@
         </div>
 
         <ul class="steps">
-          <li>1) Ouvrez Phantom et assurez‑vous d'avoir du SOL.</li>
-          <li>2) Copiez l'adresse ci‑dessus et envoyez le montant souhaité.</li>
+          <li>1) Ouvrez Phantom et assurez-vous d'avoir du SOL.</li>
+          <li>2) Copiez l'adresse ci-dessus et envoyez le montant souhaité.</li>
           <li>3) Conservez la signature de transaction (reçu).</li>
           <li>4) Distribution des tokens FTEAM à la fin de la présale.</li>
         </ul>
 
-        <p class="muted">Adresse mint du token : <span id="mint">5h7oqn63Ub7t97ZqTD8saxpckVxT37KcpoBNbzxozbt</span></p>
+        <p class="muted">Adresse mint du token : <span id="mint">5h7oqn63Ub7t97ZqTD8saxpckVxT37KcpoBNbzxozbt</span></p>
       </section>
 
       <aside class="card">
         <h3>À propos de FTEAM</h3>
-        <p>FTEAM incarne la meilleure communauté française de crypto. Objectif : créer un hub Solana francophone solide avec utilités progressives (récompenses, accès privés, événements IRL).</p>
+        <p>FTEAM incarne la meilleure communauté française de crypto. Objectif : créer un hub Solana francophone solide avec utilités progressives (récompenses, accès privés, événements IRL).</p>
         <div class="row">
           <span class="kpi" style="flex:0 0 auto"><span class="muted">Chain</span><b>Solana</b></span>
           <span class="kpi" style="flex:0 0 auto"><span class="muted">Decimals</span><b>9</b></span>
           <span class="kpi" style="flex:0 0 auto"><span class="muted">Ticker</span><b>FTEAM</b></span>
         </div>
         <hr>
-        <p class="muted" style="margin:8px 0 0">⚠️ Évitez d’envoyer depuis un exchange : nous ne pouvons pas redistribuer les FTEAM vers une adresse de dépôt d’exchange. Utilisez un wallet Phantom/Solflare.</p>
+        <p class="muted" style="margin:8px 0 0">⚠️ Évitez d’envoyer depuis un exchange : nous ne pouvons pas redistribuer les FTEAM vers une adresse de dépôt d’exchange. Utilisez un wallet Phantom/Solflare.</p>
       </aside>
     </div>
 
@@ -147,7 +146,6 @@
     const isAndroid = /Android/i.test(ua);
     const isMobile = /Android|iPhone|iPad|iPod/i.test(ua);
     if (isAndroid){
-      // Android intent (ouvre l’app directement si installée)
       const intent = 'intent://' + phantomUL.toString().replace('https://','') + '#Intent;scheme=https;package=app.phantom;end';
       window.location.href = intent;
       setTimeout(()=>{ window.location.href = solanaPayHref; }, 1200);
@@ -180,130 +178,34 @@
   }
   setInterval(updateCountdown, 1000); updateCountdown();
 
-  <script>
-// Counter (RPC avec fallback + debug mobile)
-const RPC_URLS = [
-  "https://mainnet.helius-rpc.com/?api-key=8ff2e734-290b-483b-a65b-c90e0ccdb1ca", // Helius principal
-  "https://rpc.helius.xyz/?api-key=8ff2e734-290b-483b-a65b-c90e0ccdb1ca",         // Helius backup
-  "https://api.mainnet-beta.solana.com"                                            // Public fallback
-];
+  // === Compteur (RPC Helius + fallback + debug mobile) =====================
+  const RPC_URLS = [
+    "https://mainnet.helius-rpc.com/?api-key=8ff2e734-290b-483b-a65b-c90e0ccdb1ca",
+    "https://rpc.helius.xyz/?api-key=8ff2e734-290b-483b-a65b-c90e0ccdb1ca",
+    "https://api.mainnet-beta.solana.com"
+  ];
+  const LAMPORTS_PER_SOL = 1_000_000_000;
+  const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
+  function showErr(t){ const el=document.getElementById("counterErr"); el.textContent="⛔ "+t; el.style.display="block"; }
 
-const LAMPORTS_PER_SOL = 1_000_000_000;
-const sleep = (ms) => new Promise(r => setTimeout(r, ms));
-
-function showErr(text){
-  const el = document.getElementById("counterErr");
-  el.textContent = "⛔ " + text;
-  el.style.display = "block";
-}
-
-async function rpc(method, params){
-  let lastErr;
-  for (const url of RPC_URLS){
-    try {
-      const r = await fetch(url, {
-        method: "POST",
-        headers: {"content-type": "application/json"},
-        body: JSON.stringify({jsonrpc:"2.0", id:1, method, params})
-      });
-      if (!r.ok){
-        const t = await r.text().catch(()=> "");
-        throw new Error(`HTTP ${r.status} via ${new URL(url).host} → ${t.slice(0,120)}`);
-      }
-      const j = await r.json();
-      if (j.error) throw new Error(`RPC ${j.error.code} via ${new URL(url).host} → ${j.error.message}`);
-      return j.result;
-    } catch(e){
-      lastErr = e;
-      // Affiche tout de suite sur mobile la tentative et l’erreur
-      showErr(`Essai sur ${new URL(url).host} échoué : ${e.message}`);
+  async function rpc(method, params){
+    let lastErr;
+    for(const url of RPC_URLS){
+      try{
+        const r = await fetch(url,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method,params})});
+        if(!r.ok){ const txt=await r.text().catch(()=> ""); throw new Error(`HTTP ${r.status} via ${new URL(url).host} → ${txt.slice(0,120)}`); }
+        const j = await r.json();
+        if(j.error) throw new Error(`RPC ${j.error.code} via ${new URL(url).host} → ${j.error.message}`);
+        return j.result;
+      }catch(e){ lastErr=e; showErr(`Essai sur ${new URL(url).host} échoué : ${e.message}`); }
     }
+    throw lastErr || new Error("Tous les RPC ont échoué");
   }
-  throw lastErr || new Error("Tous les RPC ont échoué");
-}
-
-async function* signaturesForAddress(address, untilTsMin){
-  let before = null;
-  while(true){
-    const res = await rpc("getSignaturesForAddress", [address, {limit:1000, before, commitment:"confirmed"}]);
-    if(!res || !res.length) break;
-    for(const s of res) yield s;
-    before = res[res.length-1].signature;
-    const lastTs = (res[res.length-1].blockTime||0)*1000;
-    if(untilTsMin && lastTs && lastTs < untilTsMin) break;
-    await sleep(250);
-  }
-}
-
-// Version compatible Helius: on lit chaque transaction via getTransaction
-async function computeRaisedSOL(){
-  let lamportsIn = 0;
-  const sigs = [];
-  for await (const s of signaturesForAddress(PRESALE_ADDRESS, SALE_START)){
-    const ts=(s.blockTime||0)*1000;
-    if(ts && ts>SALE_END) continue;
-    if(ts && ts<SALE_START) break;
-    if(s.err) continue;
-    sigs.push(s.signature);
-    if(sigs.length >= 500) break;
-  }
-
-  for (const sig of sigs){
-    const tx = await rpc("getTransaction", [sig, {maxSupportedTransactionVersion:0, commitment:"confirmed", encoding:"jsonParsed"}]);
-    if(!tx || tx.meta?.err) continue;
-    const tms=(tx.blockTime||0)*1000;
-    if(tms && (tms<SALE_START || tms>SALE_END)) continue;
-
-    const insts = tx.transaction?.message?.instructions || [];
-    for (const ins of insts){
-      const info = ins.parsed?.info;
-      if (ins.program==="system" && ins.parsed?.type==="transfer" && info?.destination===PRESALE_ADDRESS){
-        lamportsIn += Number(info.lamports||0);
-      }
-    }
-  }
-  return lamportsIn / LAMPORTS_PER_SOL;
-}
-
-async function updateRaisedUI(){
-  try{
-    const raised = await computeRaisedSOL();
-    const pct = Math.min(100,(raised/RAISE_GOAL_SOL)*100);
-    document.getElementById("raised").textContent = raised.toFixed(2)+" SOL levés / objectif "+RAISE_GOAL_SOL+" SOL";
-    document.getElementById("bar").style.width = pct.toFixed(1)+"%";
-    document.getElementById("counterErr").style.display="none";
-  }catch(e){
-    showErr(e.message || "Compteur indisponible (RPC). Réessaie plus tard.");
-  }
-}
-
-// maj toutes les 3 min (limites du plan gratuit)
-updateRaisedUI();
-setInterval(updateRaisedUI, 180000);
-</script>
-
-async function rpc(method, params){
-  const r = await fetch(RPC_URL, {
-    method: "POST",
-    headers: {"content-type": "application/json"},
-    body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params })
-  });
-  // Si le serveur répond 404/403/etc., on affiche le texte brut pour comprendre
-  if (!r.ok) {
-    const txt = await r.text().catch(()=> "");
-    throw new Error(`HTTP ${r.status}: ${txt.slice(0,200)}`);
-  }
-  const j = await r.json().catch(()=> ({}));
-  if (j.error) throw new Error(`RPC ${j.error.code}: ${j.error.message}`);
-  return j.result;
-}
 
   async function* signaturesForAddress(address, untilTsMin){
     let before=null;
     while(true){
-     const res = await rpc("getSignaturesForAddress", [
-  address, { limit: 1000, before, commitment: "confirmed" }
-]);
+      const res = await rpc("getSignaturesForAddress", [address,{limit:1000,before,commitment:"confirmed"}]);
       if(!res || !res.length) break;
       for(const s of res) yield s;
       before = res[res.length-1].signature;
@@ -313,48 +215,33 @@ async function rpc(method, params){
     }
   }
 
-async function computeRaisedSOL(){
-  const LAMPORTS_PER_SOL = 1_000_000_000;
-  let lamportsIn = 0;
-
-  // 1) Récupère les signatures vers l’adresse de présale
-  const sigs = [];
-  for await (const s of signaturesForAddress(PRESALE_ADDRESS, SALE_START)){
-    const ts = (s.blockTime || 0) * 1000;
-    if (ts && ts > SALE_END) continue;
-    if (ts && ts < SALE_START) break;
-    if (s.err) continue;
-    sigs.push(s.signature);
-    if (sigs.length >= 500) break; // suffisant pour une présale
-  }
-
-  // 2) Pour chaque signature, demande la transaction (méthode supportée par Helius)
-  for (const sig of sigs){
-    const tx = await rpc("getTransaction", [
-      sig,
-      {
-        maxSupportedTransactionVersion: 0,
-        commitment: "confirmed",
-        encoding: "jsonParsed"
-      }
-    ]);
-
-    if (!tx || tx.meta?.err) continue;
-    const tms = (tx.blockTime || 0) * 1000;
-    if (tms && (tms < SALE_START || tms > SALE_END)) continue;
-
-    const insts = tx.transaction?.message?.instructions || [];
-    for (const ins of insts){
-      const info = ins.parsed?.info;
-      if (ins.program === "system" && ins.parsed?.type === "transfer" && info?.destination === PRESALE_ADDRESS){
-        lamportsIn += Number(info.lamports || 0);
+  // Version compatible Helius: getTransaction unitaire
+  async function computeRaisedSOL(){
+    let lamportsIn=0;
+    const sigs=[];
+    for await(const s of signaturesForAddress(PRESALE_ADDRESS, SALE_START)){
+      const ts=(s.blockTime||0)*1000;
+      if(ts && ts>SALE_END) continue;
+      if(ts && ts<SALE_START) break;
+      if(s.err) continue;
+      sigs.push(s.signature);
+      if(sigs.length>=500) break;
+    }
+    for(const sig of sigs){
+      const tx = await rpc("getTransaction",[sig,{maxSupportedTransactionVersion:0,commitment:"confirmed",encoding:"jsonParsed"}]);
+      if(!tx || tx.meta?.err) continue;
+      const tms=(tx.blockTime||0)*1000;
+      if(tms && (tms<SALE_START || tms>SALE_END)) continue;
+      const insts=tx.transaction?.message?.instructions||[];
+      for(const ins of insts){
+        const info=ins.parsed?.info;
+        if(ins.program==="system" && ins.parsed?.type==="transfer" && info?.destination===PRESALE_ADDRESS){
+          lamportsIn += Number(info.lamports||0);
+        }
       }
     }
+    return lamportsIn / LAMPORTS_PER_SOL;
   }
-
-  return lamportsIn / LAMPORTS_PER_SOL;
-}
-
 
   async function updateRaisedUI(){
     try{
@@ -363,12 +250,9 @@ async function computeRaisedSOL(){
       document.getElementById("raised").textContent = raised.toFixed(2)+" SOL levés / objectif "+RAISE_GOAL_SOL+" SOL";
       document.getElementById("bar").style.width = pct.toFixed(1)+"%";
       document.getElementById("counterErr").style.display="none";
-    }catch(e){
-      document.getElementById("counterErr").style.display="block";
-      console.warn("Compteur erreur:",e);
-    }
+    }catch(e){ showErr(e.message || "Compteur indisponible (RPC). Réessaie plus tard."); }
   }
-  updateRaisedUI(); setInterval(updateRaisedUI,60000);
+  updateRaisedUI(); setInterval(updateRaisedUI,180000);
 </script>
 </body>
 </html>
