@@ -4,9 +4,15 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>FTEAM — Presale</title>
-  <link rel="icon" href="favicon.ico">
-  <link rel="icon" type="image/png" href="logo-fteam.png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Optimisation du chargement des polices -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Logo et favicon (idéalement un WebP léger 256x256) -->
+  <link rel="icon" type="image/png" href="logo-fteam.webp">
+
   <style>
     :root{--blue:#002395;--white:#fff;--red:#ED2939;--bg:#0b0f19;--card:#12182a;--muted:#b9c6ff99;--line:#2636667a}
     *{box-sizing:border-box}
@@ -28,7 +34,7 @@
     .muted{color:var(--muted);font-size:13px}
     .input{display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#0d1430}
     .input input{flex:1;padding:12px 12px;color:#eef3ff;background:transparent;border:none;outline:none;font-size:14px}
-    .input .copy{background:#111a3d;color:#cfe0ff;border-left:1px solid var(--line);font-size:14px}
+    .input .copy{background:#111a3d;color:#cfe0ff;border-left:1px solid #2a386b66;font-size:14px}
     .btn{cursor:pointer;border:none;border-radius:12px;padding:12px 14px;font-weight:800;color:#0c1330;background:linear-gradient(90deg,var(--blue),var(--white),var(--red));box-shadow:0 6px 18px #0007;font-size:14px}
     .links a{color:#9ecbff;text-decoration:underline}
     .bar{height:10px;background:#0e1430;border-radius:10px;overflow:hidden;border:1px solid #2a386b66}
@@ -39,10 +45,11 @@
     ul.steps li{margin:8px 0}
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <header>
-      <img src="logo-fteam.png" alt="FTEAM">
+      <img src="logo-fteam.webp" alt="FTEAM">
       <div class="brand">
         <div class="pill"><span>French Team • FTEAM</span></div>
         <h1>Presale officielle FTEAM</h1>
@@ -106,12 +113,10 @@
         <h3>À propos de FTEAM</h3>
         <p>FTEAM incarne la meilleure communauté française de crypto. Objectif : créer un hub Solana francophone solide avec utilités progressives (récompenses, accès privés, événements IRL).</p>
         <div class="row">
-          <span class="kpi" style="flex:0 0 auto"><span class="muted">Chain</span><b>Solana</b></span>
-          <span class="kpi" style="flex:0 0 auto"><span class="muted">Decimals</span><b>9</b></span>
-          <span class="kpi" style="flex:0 0 auto"><span class="muted">Ticker</span><b>FTEAM</b></span>
+          <span class="kpi"><span class="muted">Chain</span><b>Solana</b></span>
+          <span class="kpi"><span class="muted">Decimals</span><b>9</b></span>
+          <span class="kpi"><span class="muted">Ticker</span><b>FTEAM</b></span>
         </div>
-        <hr>
-        <p class="muted" style="margin:8px 0 0">⚠️ Évitez d’envoyer depuis un exchange : nous ne pouvons pas redistribuer les FTEAM vers une adresse de dépôt d’exchange. Utilisez un wallet Phantom/Solflare.</p>
       </aside>
     </div>
 
@@ -119,191 +124,184 @@
   </div>
 
 <script>
-  const PRESALE_ADDRESS = "85W5dCWr5bCGv1dfcELu1rnFR6BVdXVi9QU1yMTehVm1";
-  const RAISE_GOAL_SOL = 20;
-  const SALE_START = new Date("2025-10-12T00:00:00Z").getTime();
-  const SALE_END   = new Date("2025-10-20T23:59:59Z").getTime();
+/* ====== CONFIG ====== */
+const PRESALE_ADDRESS = "85W5dCWr5bCGv1dfcELu1rnFR6BVdXVi9QU1yMTehVm1";
+const RAISE_GOAL_SOL = 20;
+const SALE_START = new Date("2025-10-12T00:00:00Z").getTime();
+const SALE_END   = new Date("2025-10-20T23:59:59Z").getTime();
+document.getElementById('year').textContent = new Date().getFullYear();
 
-  document.getElementById('year').textContent = new Date().getFullYear();
+/* ====== PHANTOM LINKS ====== */
+const phantomUL = new URL('https://phantom.app/ul/v1/pay');
+phantomUL.searchParams.set('recipient', PRESALE_ADDRESS);
+phantomUL.searchParams.set('network', 'mainnet-beta');
+phantomUL.searchParams.set('label', 'FTEAM Presale');
+phantomUL.searchParams.set('message', 'Participate in FTEAM presale');
+const solanaPayHref = 'solana:' + PRESALE_ADDRESS + '?label=FTEAM%20Presale';
+document.getElementById('phantomUL').href = phantomUL.toString();
+document.getElementById('solanaPay').href = solanaPayHref;
 
-  const phantomUL = new URL('https://phantom.app/ul/v1/pay');
-  phantomUL.searchParams.set('recipient', PRESALE_ADDRESS);
-  phantomUL.searchParams.set('network', 'mainnet-beta');
-  phantomUL.searchParams.set('label', 'FTEAM Presale');
-  phantomUL.searchParams.set('message', 'Participate in FTEAM presale');
-  const solanaPayHref = 'solana:' + PRESALE_ADDRESS + '?label=FTEAM%20Presale&message=Participate%20in%20FTEAM%20presale';
-  document.getElementById('phantomUL').href = phantomUL.toString();
-  document.getElementById('solanaPay').href = solanaPayHref;
+function copyAddr(){ navigator.clipboard.writeText(PRESALE_ADDRESS).then(()=>{
+  const btn=document.querySelector('.copy'); const old=btn.textContent; btn.textContent='✔ Copié'; setTimeout(()=>btn.textContent=old,1200);
+}); }
 
-  function copyAddr(){ navigator.clipboard.writeText(PRESALE_ADDRESS).then(()=>{
-    const btn=document.querySelector('.copy'); const old=btn.textContent; btn.textContent='✔ Copié'; setTimeout(()=>btn.textContent=old,1200);
-  }); }
-
-  function openPhantom(){
-    const ua = navigator.userAgent || '';
-    theMobile = /Android|iPhone|iPad|iPod/i.test(ua);
-    if (/Android/i.test(ua)){
-      const intent = 'intent://' + phantomUL.toString().replace('https://','') + '#Intent;scheme=https;package=app.phantom;end';
-      window.location.href = intent;
-      setTimeout(()=>{ window.location.href = solanaPayHref; }, 1200);
-      return;
-    }
-    if (theMobile){
-      window.location.href = phantomUL.toString();
-      setTimeout(()=>{ window.location.href = solanaPayHref; }, 1200);
-    } else {
-      alert("Sur ordinateur, ouvrez l’extension Phantom, cliquez sur Envoyer et collez l’adresse copiée.");
-      window.open('https://phantom.app/', '_blank');
-    }
+function openPhantom(){
+  const ua = navigator.userAgent || '';
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(ua);
+  if (/Android/i.test(ua)){
+    const intent = 'intent://' + phantomUL.toString().replace('https://','') + '#Intent;scheme=https;package=app.phantom;end';
+    window.location.href = intent; setTimeout(()=>window.location.href = solanaPayHref, 1200); return;
   }
+  if (isMobile){ window.location.href = phantomUL.toString(); setTimeout(()=>window.location.href = solanaPayHref, 1200); }
+  else { alert("Sur ordinateur, ouvrez Phantom et collez l’adresse."); window.open('https://phantom.app/','_blank'); }
+}
 
-  // Countdown
-  function updateCountdown(){
-    const now = Date.now();
-    if (now > SALE_END){
-      document.getElementById('endedBanner').style.display='block';
-      document.getElementById('progressRow').style.display='none';
-      document.getElementById('liveKpi').style.opacity=.65;
-      return;
-    }
-    let diff = Math.max(0, SALE_END - now);
-    const d = Math.floor(diff/86400000); diff%=86400000;
-    const h = Math.floor(diff/3600000); diff%=3600000;
-    const m = Math.floor(diff/60000); diff%=60000;
-    const s = Math.floor(diff/1000);
-    document.getElementById('count').textContent = `${d}j ${h}h ${m}m ${s}s`;
+/* ====== COUNTDOWN ====== */
+function updateCountdown(){
+  const now = Date.now();
+  if (now > SALE_END){
+    document.getElementById('endedBanner').style.display='block';
+    document.getElementById('progressRow').style.display='none';
+    document.getElementById('liveKpi').style.opacity=.65;
+    return;
   }
-  setInterval(updateCountdown, 1000); updateCountdown();
+  let diff = Math.max(0, SALE_END - now);
+  const d = Math.floor(diff/86400000); diff%=86400000;
+  const h = Math.floor(diff/3600000); diff%=3600000;
+  const m = Math.floor(diff/60000); diff%=60000;
+  const s = Math.floor(diff/1000);
+  document.getElementById('count').textContent = `${d}j ${h}h ${m}m ${s}s`;
+}
+setInterval(updateCountdown, 1000); updateCountdown();
 
-  // === Compteur (RPC + cache + batching)
-  const RPC_URLS = [
-    "https://rpc.ankr.com/solana",  // public
-    // ➜ 1ère clé Helius
-    "https://mainnet.helius-rpc.com/?api-key=8ff2e734-290b-483b-a65b-c90e0ccdb1ca",
-    "https://rpc.helius.xyz/?api-key=8ff2e734-290b-483b-a65b-c90e0ccdb1ca",
-    // ➜ 2ème clé Helius
-    "https://mainnet.helius-rpc.com/?api-key=bc7aa527-188f-4f0a-bb15-db6bc650b642",
-    "https://rpc.helius.xyz/?api-key=bc7aa527-188f-4f0a-bb15-db6bc650b642"
-  ];
-  const LAMPORTS_PER_SOL = 1_000_000_000;
-  const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
-  const CACHE_KEY = "fteam_raised_cache_v2";
+/* ====== COMPTEUR (fallback + batching + cache + démarrage différé) ====== */
+const RPC_URLS = [
+  "https://rpc.ankr.com/solana",
+  // ➜ 1ère clé Helius
+  "https://mainnet.helius-rpc.com/?api-key=8ff2e734-290b-483b-a65b-c90e0ccdb1ca",
+  "https://rpc.helius.xyz/?api-key=8ff2e734-290b-483b-a65b-c90e0ccdb1ca",
+  // ➜ 2ème clé Helius
+  "https://mainnet.helius-rpc.com/?api-key=bc7aa527-188f-4f0a-bb15-db6bc650b642",
+  "https://rpc.helius.xyz/?api-key=bc7aa527-188f-4f0a-bb15-db6bc650b642"
+];
+const LAMPORTS_PER_SOL = 1_000_000_000;
+const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
+const CACHE_KEY="fteam_raised_cache_v2";
 
-  function showErr(t){ const el=document.getElementById("counterErr"); el.textContent="⛔ "+t; el.style.display="block"; }
-  function readCache(){ try{return JSON.parse(localStorage.getItem(CACHE_KEY)||"null");}catch{return null;} }
-  function writeCache(value){ try{localStorage.setItem(CACHE_KEY,JSON.stringify({value,ts:Date.now()}));}catch{} }
+function showErr(t){const e=document.getElementById("counterErr");e.textContent="⛔ "+t;e.style.display="block";}
+function readCache(){try{return JSON.parse(localStorage.getItem(CACHE_KEY)||"null");}catch{return null;}}
+function writeCache(v){try{localStorage.setItem(CACHE_KEY,JSON.stringify({value:v,ts:Date.now()}));}catch{}}
 
-  // essaie chaque RPC; si 429 (rate limit) → passe au suivant
-  async function rpc(method, params){
-    const errs=[];
-    for (const url of RPC_URLS){
+async function rpc(method,params){
+  const errs=[];
+  for(const url of RPC_URLS){
+    try{
+      const r=await fetch(url,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method,params})});
+      if(!r.ok){if(r.status===429){errs.push("429 "+new URL(url).host);continue;}throw new Error("HTTP "+r.status+" via "+new URL(url).host);}
+      const j=await r.json();if(j.error){if(j.error.code===-32429){errs.push("rate "+new URL(url).host);continue;}throw new Error(j.error.message);}return j.result;
+    }catch(e){errs.push(e.message);}
+  }
+  throw new Error(errs.join(" | "));
+}
+
+async function* signaturesForAddress(addr,untilTsMin){
+  let before=null;
+  while(true){
+    const res=await rpc("getSignaturesForAddress",[addr,{limit:1000,before,commitment:"confirmed"}]);
+    if(!res||!res.length)break;
+    for(const s of res)yield s;
+    before=res[res.length-1].signature;
+    const last=(res[res.length-1].blockTime||0)*1000;
+    if(untilTsMin&&last&&last<untilTsMin)break;
+    await sleep(200);
+  }
+}
+
+async function getParsedTxBatch(sigs){
+  try{return await rpc("getParsedTransactions",[sigs,{maxSupportedTransactionVersion:0}]);}
+  catch(_){
+    const out=[];
+    for(const sig of sigs){
       try{
-        const r = await fetch(url, {
-          method:"POST",
-          headers:{"content-type":"application/json"},
-          body:JSON.stringify({jsonrpc:"2.0",id:1,method,params})
-        });
-        if(!r.ok){
-          const status=r.status;
-          const txt=await r.text().catch(()=> "");
-          if(status===429){ errs.push(`429 ${new URL(url).host}`); continue; }
-          throw new Error(`HTTP ${status} via ${new URL(url).host}`);
-        }
-        const j = await r.json();
-        if(j.error){
-          if(j.error.code===-32429){ errs.push(`rate limited ${new URL(url).host}`); continue; }
-          throw new Error(`RPC ${j.error.code} via ${new URL(url).host}: ${j.error.message}`);
-        }
-        return j.result;
-      }catch(e){ errs.push(e.message); }
+        const t=await rpc("getTransaction",[sig,{maxSupportedTransactionVersion:0,commitment:"confirmed",encoding:"jsonParsed"}]);
+        out.push(t); await sleep(80);
+      }catch{out.push(null);}
     }
-    throw new Error(errs.join(" | "));
+    return out;
   }
+}
 
-  // itère les signatures depuis l’adresse
-  async function* signaturesForAddress(address, untilTsMin){
-    let before=null;
-    while(true){
-      const res=await rpc("getSignaturesForAddress",[address,{limit:1000,before,commitment:"confirmed"}]);
-      if(!res||!res.length) break;
-      for(const s of res) yield s;
-      before=res[res.length-1].signature;
-      const lastTs=(res[res.length-1].blockTime||0)*1000;
-      if(untilTsMin&&lastTs&&lastTs<untilTsMin) break;
-      await sleep(200);
-    }
+async function computeRaisedSOL(){
+  let lamportsIn=0; const sigs=[];
+  for await(const s of signaturesForAddress(PRESALE_ADDRESS,SALE_START)){
+    const ts=(s.blockTime||0)*1000;
+    if(ts&&ts>SALE_END)continue;
+    if(ts&&ts<SALE_START)break;
+    if(s.err)continue;
+    sigs.push(s.signature);
+    if(sigs.length>=400)break; // moins d'appels = plus rapide
   }
-
-  // essaie d’abord en batch (100 signatures), fallback unitaire si besoin
-  async function getParsedTxBatch(sigs){
-    try{
-      return await rpc("getParsedTransactions",[sigs,{maxSupportedTransactionVersion:0}]);
-    }catch(_){
-      const out=[];
-      for(const sig of sigs){
-        try{
-          const t = await rpc("getTransaction",[sig,{maxSupportedTransactionVersion:0,commitment:"confirmed",encoding:"jsonParsed"}]);
-          out.push(t);
-          await sleep(80);
-        }catch(e){ out.push(null); }
-      }
-      return out;
-    }
-  }
-
-  async function computeRaisedSOL(){
-    let lamportsIn=0;
-    const sigs=[];
-    for await (const s of signaturesForAddress(PRESALE_ADDRESS, SALE_START)){
-      const ts=(s.blockTime||0)*1000;
-      if(ts && ts>SALE_END) continue;
-      if(ts && ts<SALE_START) break;
-      if(s.err) continue;
-      sigs.push(s.signature);
-      if(sigs.length>=600) break;
-    }
-    for(let i=0;i<sigs.length;i+=100){
-      const chunk=sigs.slice(i,i+100);
-      const txs=await getParsedTxBatch(chunk);
-      for(const tx of (txs||[])){
-        if(!tx||tx.meta?.err) continue;
-        const tms=(tx.blockTime||0)*1000;
-        if(tms && (tms<SALE_START||tms>SALE_END)) continue;
-        const insts=tx.transaction?.message?.instructions||[];
-        for(const ins of insts){
-          const info=ins.parsed?.info;
-          if(ins.program==="system" && ins.parsed?.type==="transfer" && info?.destination===PRESALE_ADDRESS){
-            lamportsIn += Number(info.lamports||0);
-          }
+  for(let i=0;i<sigs.length;i+=100){
+    const chunk=sigs.slice(i,i+100);
+    const txs=await getParsedTxBatch(chunk);
+    for(const tx of (txs||[])){
+      if(!tx||tx.meta?.err)continue;
+      const tms=(tx.blockTime||0)*1000;
+      if(tms&&(tms<SALE_START||tms>SALE_END))continue;
+      for(const ins of tx.transaction?.message?.instructions||[]){
+        const info=ins.parsed?.info;
+        if(ins.program==="system"&&ins.parsed?.type==="transfer"&&info?.destination===PRESALE_ADDRESS){
+          lamportsIn+=Number(info.lamports||0);
         }
       }
-      await sleep(150);
     }
-    return lamportsIn/LAMPORTS_PER_SOL;
+    await sleep(220); // relâche un peu la pression réseau
   }
+  return lamportsIn/LAMPORTS_PER_SOL;
+}
 
-  async function updateRaisedUI(){
-    try{
-      const raised=await computeRaisedSOL();
-      writeCache(raised);
+async function updateRaisedUI(){
+  try{
+    const raised=await computeRaisedSOL();
+    writeCache(raised);
+    const pct=Math.min(100,(raised/RAISE_GOAL_SOL)*100);
+    document.getElementById("raised").textContent=raised.toFixed(2)+" SOL levés / objectif "+RAISE_GOAL_SOL+" SOL";
+    document.getElementById("bar").style.width=pct.toFixed(1)+"%";
+    document.getElementById("counterErr").style.display="none";
+  }catch(e){
+    const cached=readCache();
+    if(cached){
+      const raised=cached.value;
       const pct=Math.min(100,(raised/RAISE_GOAL_SOL)*100);
-      document.getElementById("raised").textContent=raised.toFixed(2)+" SOL levés / objectif "+RAISE_GOAL_SOL+" SOL";
+      document.getElementById("raised").textContent=raised.toFixed(2)+" SOL levés / objectif "+RAISE_GOAL_SOL+" SOL (cache)";
       document.getElementById("bar").style.width=pct.toFixed(1)+"%";
-      document.getElementById("counterErr").style.display="none";
-    }catch(e){
-      const cached=readCache();
-      if(cached){
-        const raised=cached.value;
-        const pct=Math.min(100,(raised/RAISE_GOAL_SOL)*100);
-        document.getElementById("raised").textContent=raised.toFixed(2)+" SOL levés / objectif "+RAISE_GOAL_SOL+" SOL (cache)";
-        document.getElementById("bar").style.width=pct.toFixed(1)+"%";
-      }
-      showErr(e.message||"Compteur indisponible (RPC). Réessaie plus tard.");
     }
+    showErr(e.message||"Compteur indisponible (RPC).");
   }
+}
 
-  updateRaisedUI();
-  setInterval(updateRaisedUI, 180000); // toutes les 3 minutes
+/* Affiche le cache instantanément */
+(function showCachedImmediately(){
+  try{
+    const c=JSON.parse(localStorage.getItem(CACHE_KEY)||"null");
+    if(c&&typeof c.value==="number"){
+      const raised=c.value; const pct=Math.min(100,(raised/RAISE_GOAL_SOL)*100);
+      document.getElementById("raised").textContent=raised.toFixed(2)+" SOL levés / objectif "+RAISE_GOAL_SOL+" SOL (cache)";
+      document.getElementById("bar").style.width=pct.toFixed(1)+"%";
+    }
+  }catch{}
+})();
+
+/* Lance le vrai fetch quand le navigateur est au repos (ou après 3s) */
+const startCounter = ()=>updateRaisedUI();
+if("requestIdleCallback" in window){
+  requestIdleCallback(startCounter,{timeout:3000});
+}else{
+  setTimeout(startCounter,3000);
+}
+
+/* Rafraîchit toutes les 5 minutes pour réduire la charge */
+setInterval(updateRaisedUI,300000);
 </script>
 </body>
 </html>
