@@ -3,169 +3,77 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>French Team (FTEAM) — Presale officielle</title>
-  <meta name="description" content="Presale officielle du token French Team (FTEAM). This token represents the absolute best French community, which powered the token TDM's meteoric rise in 2024." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <title>FTEAM Presale — Paiement</title>
   <style>
-    :root{
-      --blue:#002395;/* bleu drapeau FR */
-      --white:#ffffff;
-      --red:#ED2939;/* rouge drapeau FR */
-      --bg:#0b0f19;
-      --text:#e7ecff;
-      --muted:#9db0ff44;
-      --card:#12182a;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:linear-gradient(135deg,var(--bg) 0%, #0d1224 50%, #0b0f19 100%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-    a{color:inherit}
-    .wrap{max-width:1100px;margin:0 auto;padding:24px}
-    header{display:flex;align-items:center;gap:16px}
-    .logo{width:72px;height:72px;border-radius:999px;background:radial-gradient(circle at 30% 30%, #fff 0 6px, var(--white) 6px, var(--white) 32px, var(--red) 32px 33px, var(--red) 34px 100%);position:relative;box-shadow:0 0 0 3px var(--blue),0 8px 24px #0007;overflow:hidden}
-    .logo:before{content:"";position:absolute;inset:18px 18px 18px 18px; background:var(--white);clip-path: path('M40 64c-9 -5 -12 -11 -12 -17c0 -6 3 -11 9 -14c-2 -4 -1 -8 1 -10c4 3 7 5 11 5c4 -4 9 -5 14 -3c-3 3 -4 7 -3 11c4 2 7 5 9 9c-5 -1 -8 0 -12 3c-2 2 -4 4 -6 7c-2 3 -5 6 -11 9z');transform:scale(0.58) translate(8px,8px);}
-    .pill{display:inline-flex;gap:10px;align-items:center;background:linear-gradient(90deg,var(--blue),var(--white),var(--red));padding:2px;border-radius:999px;box-shadow:0 2px 10px #0006}
-    .pill span{display:inline-block;background:#0d1330;padding:8px 14px;border-radius:999px;font-weight:700;letter-spacing:.4px}
-    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;margin-top:18px}
-    @media (max-width:920px){.grid{grid-template-columns:1fr}}
-    .card{background:linear-gradient(180deg,#0f1630,#0b1228);border:1px solid #2a386b77;border-radius:16px;padding:18px;box-shadow:0 12px 30px #0006}
-    .h1{font-size: clamp(28px, 4vw, 44px);line-height:1.05;margin:8px 0 6px}
-    .sub{opacity:.85}
-    .row{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0}
-    .kpi{flex:1 1 180px;background:#0f1530;border:1px solid #2a386b66;padding:12px 14px;border-radius:12px}
-    .kpi b{display:block;font-size:18px}
-    .cta{display:flex;gap:10px;align-items:center}
-    button{cursor:pointer;border:none;border-radius:12px;padding:12px 16px;font-weight:700;color:#0c1330;background:linear-gradient(90deg,var(--blue),var(--white),var(--red));}
-    .muted{color:#cfe0ff99;font-size:14px}
-    .input{display:flex;border:1px solid #2a386b77;border-radius:12px;overflow:hidden;background:#0d1430}
-    .input input{flex:1;padding:12px 14px;color:#eef3ff;background:transparent;border:none;outline:none}
-    .input .copy{background:#111a3d;color:#cfe0ff;border-left:1px solid #2a386b77}
-    .steps li{margin:10px 0}
-    footer{margin:48px 0 12px;opacity:.65;font-size:13px}
-    .badge{display:inline-block;padding:6px 10px;border-radius:10px;border:1px solid #2a386b66;background:#0f1530;font-weight:600}
-    .bar{height:10px;background:#0e1430;border-radius:10px;overflow:hidden;border:1px solid #2a386b66}
-    .bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%}
+    body{{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;background:#0b0f19;color:#e7ecff}}
+    .wrap{{max-width:860px;margin:0 auto;padding:24px}}
+    .card{{background:#0f1630;border:1px solid #25356a;border-radius:16px;padding:20px;box-shadow:0 8px 24px #0006}}
+    h1{{margin:8px 0 12px}}
+    .row{{display:flex;gap:12px;flex-wrap:wrap;align-items:center}}
+    .input{{display:flex;border:1px solid #2a386b77;border-radius:12px;overflow:hidden;background:#0d1430;flex:1}}
+    .input input{{flex:1;padding:12px 14px;color:#eef3ff;background:transparent;border:none;outline:none}}
+    .input button{{background:#111a3d;border:0;color:#cfe0ff;padding:0 12px;cursor:pointer}}
+    .btn{{cursor:pointer;border:none;border-radius:12px;padding:12px 16px;font-weight:700;color:#0c1330;background:linear-gradient(90deg,#002395,#ffffff,#ED2939)}}
+    .muted{{color:#cfe0ff99;font-size:14px}}
+    .note{{background:#091028;border:1px dashed #2a386b77;border-radius:10px;padding:10px;margin-top:10px}}
+    a.link{{color:#9ecbff;text-decoration:underline}}
+    code{{background:#101735;border:1px solid #2a386b66;padding:2px 6px;border-radius:6px}}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <header>
-      <!-- Remplacez par un <img src="logo-fteam.png" alt="FTEAM" class="logo"> si vous préférez -->
-      <div class="logo" aria-label="Logo FTEAM"></div>
-      <div>
-        <div class="pill" title="French tricolore">
-          <span>French Team • FTEAM</span>
+    <div class="card">
+      <h1>French Team (FTEAM) — Presale</h1>
+      <p class="muted">Mint&nbsp;: <code>5h7oqn63Ub7t97ZqTD8saxpckVxT37KcpoBNbzxozbt</code></p>
+
+      <h3>1) Adresse de participation (SOL)</h3>
+      <div class="row" style="margin:10px 0 16px">
+        <div class="input">
+          <input id="addr" readonly value="85W5dCWr5bCGv1dfcELu1rnFR6BVdXVi9QU1yMTehVm1">
+          <button onclick="copyAddr()">📋 Copier</button>
         </div>
-        <h1 class="h1">Presale officielle <span style="color:var(--white)">FTEAM</span></h1>
-        <div class="sub">This token represents the absolute best French community, which powered the token TDM's meteoric rise in 2024.</div>
+        <button class="btn" onclick="openPhantom()">Ouvrir dans Phantom (mobile)</button>
       </div>
-    </header>
 
-    <div class="grid">
-      <section class="card">
-        <h2>Participer à la présale</h2>
-        <p class="muted">Envoyez <b>SOL</b> vers l'adresse ci-dessous depuis un portefeuille compatible (Phantom, Solflare). Les tokens FTEAM seront distribués après la clôture.</p>
+      <div class="note">
+        <b>Si vous êtes sur <u>ordinateur</u> :</b> les navigateurs ne peuvent pas ouvrir l'extension Phantom automatiquement.<br/>
+        Ouvrez Phantom → <b>Envoyer</b> → collez l'adresse ci‑dessus → validez.
+      </div>
 
-        <div class="row">
-          <div class="kpi"><span class="muted">Prix</span><b id="price">1 SOL = 100 000 FTEAM</b></div>
-          <div class="kpi"><span class="muted">Min / Max</span><b>0.1 SOL • 10 SOL</b></div>
-          <div class="kpi"><span class="muted">Supply présale</span><b>20 000 000 FTEAM</b></div>
-        </div>
-
-        <div class="row" style="align-items:center">
-          <div class="input" style="flex:1">
-            <input id="payAddr" readonly value="85W5dCWr5bCGv1dfcELu1rnFR6BVdXVi9QU1yMTehVm1" />
-            <button class="copy" onclick="copyAddr()">📋 Copier</button>
-          </div>
-          <div class="cta"><button onclick="openPhantom()">Ouvrir Phantom</button></div>
-        </div>
-
-        <div class="row">
-          <div style="flex:1">
-            <div class="muted">Clôture dans</div>
-            <div id="count" style="font-weight:800;font-size:28px;margin-top:2px">--:--:--</div>
-          </div>
-          <div style="flex:1">
-            <div class="muted">Progression</div>
-            <div class="bar"><i id="bar" style="width:0%"></i></div>
-            <div class="muted" id="raised">0 SOL levés / objectif 100 SOL</div>
-          </div>
-        </div>
-
-        <ul class="steps">
-          <li>1) Ouvrez Phantom et assurez-vous d'avoir du SOL.</li>
-          <li>2) Copiez l'adresse ci-dessus et envoyez le montant souhaité.</li>
-          <li>3) Conservez le reçu de transaction (signature).</li>
-          <li>4) Distribution des tokens FTEAM à la fin de la présale.</li>
-        </ul>
-
-        <p class="muted">Adresse mint du token : <span id="mint">5h7oqn63Ub7t97ZqTD8saxpckVxT37KcpoBNbzxozbt</span></p>
-      </section>
-
-      <aside class="card">
-        <h3>À propos de FTEAM</h3>
-        <p>FTEAM incarne la meilleure communauté française de crypto. Objectif : créer un hub Solana francophone solide avec utilités progressives (récompenses, accès privés, événements IRL).</p>
-        <div class="row">
-          <span class="badge">Chain: Solana</span>
-          <span class="badge">Decimals: 9</span>
-          <span class="badge">Ticker: FTEAM</span>
-        </div>
-        <hr style="border:0;border-top:1px solid #2a386b66;margin:18px 0">
-        <h4>Paramètres (éditables dans le code)</h4>
-        <ul class="muted">
-          <li><code>SALE_END</code> — date/heure de fin</li>
-          <li><code>RAISE_GOAL_SOL</code> — objectif en SOL</li>
-          <li><code>PRICE_PER_SOL</code> — tokens par SOL</li>
-          <li><code>PRESALE_ADDRESS</code> — adresse de réception</li>
-          <li><code>MINT_ADDRESS</code> — mint du token</li>
-        </ul>
-        <p class="muted">Remplacez le logo en haut par votre fichier <code>logo-fteam.png</code> (ou utilisez la div actuelle).</p>
-      </aside>
+      <h3 style="margin-top:22px">2) Lien universel (mobile)</h3>
+      <p class="muted">
+        Si le bouton ne s’ouvre pas, utilisez ces liens :<br/>
+        • Phantom : <a class="link" id="phantomUL" href="#">ouvrir avec Phantom</a><br/>
+        • Solana Pay (générique) : <a class="link" id="solanaPay" href="#">solana:&lt;adresse&gt;</a>
+      </p>
     </div>
-
-    <footer>
-      <p>⚠️ Ne pas envoyer depuis un exchange (Binance, Kraken…). Utilisez un wallet non-custodial (Phantom/Solflare). Aucun remboursement après envoi. Les tokens seront envoyés manuellement à l'adresse de l'expéditeur.</p>
-      <p>© <span id="year"></span> French Team — FTEAM</p>
-    </footer>
   </div>
 
-  <script>
-    const PRESALE_ADDRESS = '85W5dCWr5bCGv1dfcELu1rnFR6BVdXVi9QU1yMTehVm1';
-    const MINT_ADDRESS    = '5h7oqn63Ub7t97ZqTD8saxpckVxT37KcpoBNbzxozbt';
-    const PRICE_PER_SOL   = 100000;
-    const RAISE_GOAL_SOL  = 100;
-    const SALE_END        = '2025-10-20T20:00:00Z';
+<script>
+  const PRESALE_ADDRESS = "85W5dCWr5bCGv1dfcELu1rnFR6BVdXVi9QU1yMTehVm1";
+  const phantomUL = new URL('https://phantom.app/ul/v1/pay');
+  phantomUL.searchParams.set('recipient', PRESALE_ADDRESS);
+  phantomUL.searchParams.set('network', 'mainnet-beta');
+  phantomUL.searchParams.set('label', 'FTEAM Presale');
+  phantomUL.searchParams.set('message', 'Participate in FTEAM presale');
 
-    document.getElementById('payAddr').value = PRESALE_ADDRESS;
-    document.getElementById('mint').textContent = MINT_ADDRESS;
-    document.getElementById('year').textContent = new Date().getFullYear();
+  const solanaPayHref = 'solana:' + PRESALE_ADDRESS + '?label=FTEAM%20Presale&message=Participate%20in%20FTEAM%20presale';
 
-    function copyAddr(){
-      navigator.clipboard.writeText(PRESALE_ADDRESS).then(()=>{
-        const btn = document.querySelector('.copy');
-        const old = btn.textContent; btn.textContent = '✔ Copié';
-        setTimeout(()=>btn.textContent=old,1400);
-      });
-    }
-    function openPhantom(){ window.open('https://phantom.app/', '_blank'); }
+  document.getElementById('phantomUL').href = phantomUL.toString();
+  document.getElementById('solanaPay').href = solanaPayHref;
 
-    function tick(){
-      const end = new Date(SALE_END).getTime();
-      const now = Date.now();
-      let diff = Math.max(0, end - now);
-      const d = Math.floor(diff/86400000); diff%=86400000;
-      const h = Math.floor(diff/3600000); diff%=3600000;
-      const m = Math.floor(diff/60000); diff%=60000;
-      const s = Math.floor(diff/1000);
-      document.getElementById('count').textContent = `${String(d).padStart(2,'0')}j ${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`;
-    }
-    setInterval(tick,1000); tick();
+  function copyAddr(){{ navigator.clipboard.writeText(PRESALE_ADDRESS); }}
 
-    const CURRENT_RAISED_SOL = 0;
-    const pct = Math.min(100, (CURRENT_RAISED_SOL/RAISE_GOAL_SOL)*100);
-    document.getElementById('bar').style.width = pct.toFixed(1)+'%';
-    document.getElementById('raised').textContent = `${CURRENT_RAISED_SOL} SOL levés / objectif ${RAISE_GOAL_SOL} SOL`;
-  </script>
+  function openPhantom() {{ 
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if(isMobile) {{ 
+      window.location.href = phantomUL.toString();
+      setTimeout(()=>{{ window.location.href = solanaPayHref; }}, 1200);
+    }} else {{
+      alert('Sur ordinateur, ouvrez l’extension Phantom, cliquez sur Envoyer et collez l’adresse copiée.');
+      window.open('https://phantom.app/', '_blank');
+    }}
+  }}
+</script>
 </body>
 </html>
