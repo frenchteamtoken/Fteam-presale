@@ -178,81 +178,121 @@
   }
   setInterval(updateCountdown, 1000); updateCountdown();
 
-  // === Compteur (RPC Helius + fallback + debug mobile) =====================
-  const RPC_URLS = [
-    "https://mainnet.helius-rpc.com/?api-key=bc7aa527-188f-4f0a-bb15-db6bc650b642",
-    "https://rpc.helius.xyz/?api-key=8ff2e734-290b-483b-a65b-c90e0ccdb1ca",
-    "https://api.mainnet-beta.solana.com"
-  ];
-  const LAMPORTS_PER_SOL = 1_000_000_000;
-  const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
-  function showErr(t){ const el=document.getElementById("counterErr"); el.textContent="⛔ "+t; el.style.display="block"; }
+<script>
+// === Compteur (RPC avec fallback + cache) =====================
+const RPC_URLS = [
+  "https://rpc.ankr.com/solana",                                                  // public, accepte le navigateur
+  "https://mainnet.helius-rpc.com/?api-key=8ff2e734-290b-483b-a65b-c90e0ccdb1ca", // Helius (ta clé)
+  "https://rpc.helius.xyz/?api-key=8ff2e734-290b-483b-a65b-c90e0ccdb1ca"          // Helius backup
+];
 
-  async function rpc(method, params){
-    let lastErr;
-    for(const url of RPC_URLS){
-      try{
-        const r = await fetch(url,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method,params})});
-        if(!r.ok){ const txt=await r.text().catch(()=> ""); throw new Error(`HTTP ${r.status} via ${new URL(url).host} → ${txt.slice(0,120)}`); }
-        const j = await r.json();
-        if(j.error) throw new Error(`RPC ${j.error.code} via ${new URL(url).host} → ${j.error.message}`);
-        return j.result;
-      }catch(e){ lastErr=e; showErr(`Essai sur ${new URL(url).host} échoué : ${e.message}`); }
+const LAMPORTS_PER_SOL = 1_000_000_000;
+const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
+function showErr(t){ const el=document.getElementById("counterErr"); el.textContent="⛔ "+t; el.style.display="block"; }
+
+// --- petit cache local pour éviter l’écran vide si un appel rate ---
+const CACHE_KEY = "fteam_raised_cache_v1";
+function readCache(){
+  try{ const j = JSON.parse(localStorage.getItem(CACHE_KEY)||"null"); return j; }catch{ return null; }
+}
+function writeCache(value){
+  try{ localStorage.setItem(CACHE_KEY, JSON.stringify({value, ts: Date.now()})); }catch{}
+}
+
+async function rpc(method, params){
+  let lastErr;
+  for (const url of RPC_URLS){
+    try{
+      const r = await fetch(url, {
+        method:"POST",
+        headers:{"content-type":"application/json"},
+        body: JSON.stringify({jsonrpc:"2.0", id:1, method, params})
+      });
+      if(!r.ok){
+        // texte d’erreur utile pour mobile
+        const txt = await r.text().catch(()=> "");
+        throw new Error(`HTTP ${r.status} via ${new URL(url).host} → ${txt.slice(0,120)}`);
+      }
+      const j = await r.json();
+      if(j.error) throw new Error(`RPC ${j.error.code} via ${new URL(url).host} → ${j.error.message}`);
+      return j.result;
+    }catch(e){
+      lastErr = e;
+      // on n’affiche pas tous les essais pour éviter un pavé
     }
-    throw lastErr || new Error("Tous les RPC ont échoué");
   }
+  throw lastErr || new Error("Tous les RPC ont échoué");
+}
 
-  async function* signaturesForAddress(address, untilTsMin){
-    let before=null;
-    while(true){
-      const res = await rpc("getSignaturesForAddress", [address,{limit:1000,before,commitment:"confirmed"}]);
-      if(!res || !res.length) break;
-      for(const s of res) yield s;
-      before = res[res.length-1].signature;
-      const lastTs = (res[res.length-1].blockTime||0)*1000;
-      if(untilTsMin && lastTs && lastTs < untilTsMin) break;
-      await sleep(250);
-    }
+async function* signaturesForAddress(address, untilTsMin){
+  let before=null;
+  while(true){
+    const res = await rpc("getSignaturesForAddress", [address,{limit:1000,before,commitment:"confirmed"}]);
+    if(!res || !res.length) break;
+    for(const s of res) yield s;
+    before = res[res.length-1].signature;
+    const lastTs = (res[res.length-1].blockTime||0)*1000;
+    if(untilTsMin && lastTs && lastTs < untilTsMin) break;
+    await sleep(250);
   }
+}
 
-  // Version compatible Helius: getTransaction unitaire
-  async function computeRaisedSOL(){
-    let lamportsIn=0;
-    const sigs=[];
-    for await(const s of signaturesForAddress(PRESALE_ADDRESS, SALE_START)){
-      const ts=(s.blockTime||0)*1000;
-      if(ts && ts>SALE_END) continue;
-      if(ts && ts<SALE_START) break;
-      if(s.err) continue;
-      sigs.push(s.signature);
-      if(sigs.length>=500) break;
-    }
-    for(const sig of sigs){
-      const tx = await rpc("getTransaction",[sig,{maxSupportedTransactionVersion:0,commitment:"confirmed",encoding:"jsonParsed"}]);
-      if(!tx || tx.meta?.err) continue;
-      const tms=(tx.blockTime||0)*1000;
-      if(tms && (tms<SALE_START || tms>SALE_END)) continue;
-      const insts=tx.transaction?.message?.instructions||[];
-      for(const ins of insts){
-        const info=ins.parsed?.info;
-        if(ins.program==="system" && ins.parsed?.type==="transfer" && info?.destination===PRESALE_ADDRESS){
-          lamportsIn += Number(info.lamports||0);
-        }
+// Version compatible (getTransaction unitaire)
+async function computeRaisedSOL(){
+  let lamportsIn=0;
+  const sigs=[];
+  for await (const s of signaturesForAddress(PRESALE_ADDRESS, SALE_START)){
+    const ts=(s.blockTime||0)*1000;
+    if(ts && ts>SALE_END) continue;
+    if(ts && ts<SALE_START) break;
+    if(s.err) continue;
+    sigs.push(s.signature);
+    if(sigs.length>=500) break;
+  }
+  for (const sig of sigs){
+    const tx = await rpc("getTransaction",[sig,{maxSupportedTransactionVersion:0,commitment:"confirmed",encoding:"jsonParsed"}]);
+    if(!tx || tx.meta?.err) continue;
+    const tms=(tx.blockTime||0)*1000;
+    if(tms && (tms<SALE_START || tms>SALE_END)) continue;
+    const insts=tx.transaction?.message?.instructions||[];
+    for(const ins of insts){
+      const info=ins.parsed?.info;
+      if(ins.program==="system" && ins.parsed?.type==="transfer" && info?.destination===PRESALE_ADDRESS){
+        lamportsIn += Number(info.lamports||0);
       }
     }
-    return lamportsIn / LAMPORTS_PER_SOL;
   }
+  return lamportsIn / LAMPORTS_PER_SOL;
+}
 
-  async function updateRaisedUI(){
-    try{
-      const raised = await computeRaisedSOL();
+async function updateRaisedUI(){
+  try{
+    const raised = await computeRaisedSOL();
+    writeCache(raised); // on met en cache la dernière valeur OK
+    const pct = Math.min(100,(raised/RAISE_GOAL_SOL)*100);
+    document.getElementById("raised").textContent = raised.toFixed(2)+" SOL levés / objectif "+RAISE_GOAL_SOL+" SOL";
+    document.getElementById("bar").style.width = pct.toFixed(1)+"%";
+    document.getElementById("counterErr").style.display="none";
+  }catch(e){
+    // si erreur, on tente d’afficher la dernière valeur connue
+    const cached = readCache();
+    if (cached){
+      const raised = cached.value;
       const pct = Math.min(100,(raised/RAISE_GOAL_SOL)*100);
-      document.getElementById("raised").textContent = raised.toFixed(2)+" SOL levés / objectif "+RAISE_GOAL_SOL+" SOL";
+      document.getElementById("raised").textContent = raised.toFixed(2)+" SOL levés / objectif "+RAISE_GOAL_SOL+" SOL (cache)";
       document.getElementById("bar").style.width = pct.toFixed(1)+"%";
-      document.getElementById("counterErr").style.display="none";
-    }catch(e){ showErr(e.message || "Compteur indisponible (RPC). Réessaie plus tard."); }
+      // message discret
+      showErr(e.message);
+    }else{
+      showErr(e.message || "Compteur indisponible (RPC). Réessaie plus tard.");
+    }
   }
-  updateRaisedUI(); setInterval(updateRaisedUI,180000);
+}
+
+// maj toutes les 3 min (limites des RPC gratuits)
+updateRaisedUI();
+setInterval(updateRaisedUI, 180000);
+</script>
 </script>
 </body>
 </html>
