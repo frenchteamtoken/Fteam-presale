@@ -43,9 +43,25 @@
     ul.steps{padding-left:18px}
     ul.steps li{margin:8px 0}
     hr.line{border:0;border-top:1px solid var(--line);margin:14px 0}
+
+    /* Bandeau supérieur */
+    .topband{
+      position:sticky; top:0; z-index:999;
+      background:linear-gradient(90deg,#3a0a0a,#5b0b12);
+      color:#ffd9d9; border-bottom:1px solid #ff9aa980; padding:8px 12px; text-align:center;
+      font-weight:700; font-size:13px;
+    }
+    .topband small{display:block; font-weight:600; opacity:.95}
+    .hide{display:none!important}
   </style>
 </head>
 <body>
+  <!-- Bandeau d’annonce (disparaît à l’ouverture) -->
+  <div id="topband" class="topband">
+    ⚠️ Nouvelle présale FTEAM #2 : <b>lundi 13 oct. 2025 — 20:00 (heure de Paris)</b>.
+    <small>Prix : <b>1 SOL = 700 000 FTEAM</b> • Objectif : <b>10 SOL</b> • <b>Pas de minimum requis</b>.</small>
+  </div>
+
   <div class="wrap">
     <header>
       <img src="logo-fteam.png" alt="FTEAM">
@@ -93,7 +109,12 @@
           <div class="kpi"><span class="muted">Début</span><b>lun. 13 oct. 2025 • 20:00 (Paris)</b></div>
         </div>
 
-        <div class="row" id="countdownRow2">
+        <!-- Message visible dès maintenant -->
+        <p class="muted" style="margin:6px 0 0;">
+          <b>Aucun minimum d’investissement</b> — vous pourrez participer avec le montant SOL de votre choix dès l’ouverture.
+        </p>
+
+        <div class="row" id="countdownRow2" style="margin-top:6px">
           <div style="flex:1">
             <div class="muted">Débute dans</div>
             <div id="count2" style="font-weight:800;font-size:24px;margin-top:2px">--:--:--</div>
@@ -103,10 +124,10 @@
         <hr class="line">
 
         <!-- Bloc d’envoi #2 : masqué jusqu’au début -->
-        <div id="sendBlock2" style="display:none">
+        <div id="sendBlock2" class="hide">
           <p class="muted" style="margin:8px 0 10px">
-            À l’ouverture, envoyez <b>SOL</b> depuis Phantom/Solflare vers l’adresse ci-dessous.
-            <br><b>Aucun minimum d’investissement</b> — vous pouvez participer avec le montant SOL de votre choix.
+            Envoyez <b>SOL</b> depuis Phantom/Solflare vers l’adresse ci-dessous.
+            <br><b>Aucun minimum d’investissement</b> — participez avec le montant SOL de votre choix.
           </p>
 
           <div class="row" style="align-items:center">
@@ -123,7 +144,7 @@
         </div>
 
         <!-- Message avant ouverture -->
-        <div id="preOpenMsg" class="banner red" style="display:block">
+        <div id="preOpenMsg" class="banner red">
           L’adresse de participation sera révélée à l’heure exacte d’ouverture.
           <small>Merci de ne rien envoyer avant le lancement officiel.</small>
         </div>
@@ -137,77 +158,102 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-    const SECOND_WALLET = "A8vTWrQQWsSkHRLqwr4Nrv8xvC8RMZAUAiXfZCkf6ikh";
-    const SECOND_SALE_START_UTC = new Date("2025-10-13T18:00:00Z").getTime();
 
+    // Début officiel : lundi 13 octobre 2025, 20:00 heure de Paris = 18:00:00 UTC
+    const SECOND_SALE_START_UTC = new Date("2025-10-13T18:00:00Z").getTime();
+    const SECOND_WALLET = "A8vTWrQQWsSkHRLqwr4Nrv8xvC8RMZAUAiXfZCkf6ikh";
+
+    /* ===== Helpers ===== */
     function copyAddr(selOrId){
-      const el = typeof selOrId==="string"?document.querySelector(selOrId):selOrId;
-      if(!el)return;
-      const v=el.value||el.textContent||"";
+      const el = typeof selOrId==="string" ? document.querySelector(selOrId) : selOrId;
+      if(!el) return;
+      const v = el.value||el.textContent||"";
       navigator.clipboard.writeText(v).then(()=>{
-        const btn=el.closest(".row")?.querySelector(".copy");
-        if(btn){const old=btn.textContent;btn.textContent="✔ Copié";setTimeout(()=>btn.textContent=old,1200);}
+        const btn = el.closest(".row")?.querySelector(".copy");
+        if(btn){ const old = btn.textContent; btn.textContent="✔ Copié"; setTimeout(()=>btn.textContent=old,1200); }
       });
     }
+    function fmt(n){ return String(n).padStart(2,"0"); }
 
-    function fmt(n){return String(n).padStart(2,"0");}
+    /* ===== Compte à rebours #2 ===== */
     function updateCountdown2(){
-      const now=Date.now();
-      if(now>=SECOND_SALE_START_UTC){revealSecondSale();return;}
-      let diff=Math.max(0,SECOND_SALE_START_UTC-now);
-      const d=Math.floor(diff/86400000);diff%=86400000;
-      const h=Math.floor(diff/3600000);diff%=3600000;
-      const m=Math.floor(diff/60000);diff%=60000;
-      const s=Math.floor(diff/1000);
-      document.getElementById('count2').textContent=`${fmt(d)}j ${fmt(h)}h ${fmt(m)}m ${fmt(s)}s`;
-    }
-    setInterval(updateCountdown2,1000);updateCountdown2();
-
-    function buildLinksFor(address){
-      const phantomUL=new URL('https://phantom.app/ul/v1/pay');
-      phantomUL.searchParams.set('recipient',address);
-      phantomUL.searchParams.set('network','mainnet-beta');
-      phantomUL.searchParams.set('label','FTEAM Presale #2');
-      phantomUL.searchParams.set('message','Participer à la présale FTEAM #2');
-      const solanaPayHref='solana:'+address+'?label=FTEAM%20Presale%20%232';
-      return{phantomUL:phantomUL.toString(),solanaPay:solanaPayHref};
-    }
-
-    function openPhantom2(){
-      const address=document.getElementById('payAddr2').value;
-      if(!address)return;
-      const{phantomUL,solanaPay}=buildLinksFor(address);
-      const ua=navigator.userAgent||'';
-      const isMobile=/Android|iPhone|iPad|iPod/i.test(ua);
-      const isAndroid=/Android/i.test(ua);
-      if(isAndroid){
-        const intent='intent://'+phantomUL.replace('https://','')+'#Intent;scheme=https;package=app.phantom;end';
-        window.location.href=intent;
-        setTimeout(()=>{window.location.href=solanaPay;},1200);return;
+      const now = Date.now();
+      if (now >= SECOND_SALE_START_UTC){
+        revealSecondSale();
+        return;
       }
-      if(isMobile){
-        window.location.href=phantomUL;
-        setTimeout(()=>{window.location.href=solanaPay;},1200);
-      }else{
+      let diff = Math.max(0, SECOND_SALE_START_UTC - now);
+      const d = Math.floor(diff/86400000); diff%=86400000;
+      const h = Math.floor(diff/3600000);  diff%=3600000;
+      const m = Math.floor(diff/60000);    diff%=60000;
+      const s = Math.floor(diff/1000);
+      document.getElementById('count2').textContent =
+        `${fmt(d)}j ${fmt(h)}h ${fmt(m)}m ${fmt(s)}s`;
+    }
+    setInterval(updateCountdown2, 1000); updateCountdown2();
+
+    /* ===== Liens Phantom / Solana Pay ===== */
+    function buildLinksFor(address){
+      const phantomUL = new URL('https://phantom.app/ul/v1/pay');
+      phantomUL.searchParams.set('recipient', address);
+      phantomUL.searchParams.set('network', 'mainnet-beta');
+      phantomUL.searchParams.set('label', 'FTEAM Presale #2');
+      phantomUL.searchParams.set('message', 'Participer à la présale FTEAM #2');
+      const solanaPayHref = 'solana:' + address + '?label=FTEAM%20Presale%20%232&message=Participer';
+      return { phantomUL: phantomUL.toString(), solanaPay: solanaPayHref };
+    }
+    function openPhantom2(){
+      const address = document.getElementById('payAddr2').value;
+      if(!address) return;
+      const { phantomUL, solanaPay } = buildLinksFor(address);
+      const ua = navigator.userAgent || '';
+      const isMobile  = /Android|iPhone|iPad|iPod/i.test(ua);
+      const isAndroid = /Android/i.test(ua);
+      if (isAndroid){
+        const intent = 'intent://' + phantomUL.replace('https://','') + '#Intent;scheme=https;package=app.phantom;end';
+        window.location.href = intent;
+        setTimeout(()=>{ window.location.href = solanaPay; }, 1200);
+        return;
+      }
+      if (isMobile){
+        window.location.href = phantomUL;
+        setTimeout(()=>{ window.location.href = solanaPay; }, 1200);
+      } else {
         alert("Sur ordinateur, ouvrez l’extension Phantom et collez l’adresse.");
         window.open('https://phantom.app/','_blank');
       }
     }
 
-    let revealed=false;
+    /* ===== Révélation auto à l’heure ===== */
+    let revealed = false;
     function revealSecondSale(){
-      if(revealed)return;revealed=true;
-      const addrEl=document.getElementById('payAddr2');
-      addrEl.value=SECOND_WALLET;
-      const{phantomUL,solanaPay}=buildLinksFor(SECOND_WALLET);
-      document.getElementById('phantomUL2').href=phantomUL;
-      document.getElementById('solanaPay2').href=solanaPay;
-      document.getElementById('sendBlock2').style.display='block';
-      document.getElementById('preOpenMsg').style.display='none';
-      document.getElementById('countdownRow2').innerHTML='<div class="banner" style="width:100%;margin:0">La présale #2 est <b>OUVERTE</b> — vous pouvez participer sans minimum.</div>';
+      if (revealed) return; revealed = true;
+
+      // Adresse & liens
+      const addrEl = document.getElementById('payAddr2');
+      addrEl.value = SECOND_WALLET;
+      const { phantomUL, solanaPay } = buildLinksFor(SECOND_WALLET);
+      document.getElementById('phantomUL2').href = phantomUL;
+      document.getElementById('solanaPay2').href = solanaPay;
+
+      // Affiche le bloc d’envoi, masque l’alerte et le bandeau
+      document.getElementById('sendBlock2').classList.remove('hide');
+      document.getElementById('preOpenMsg').classList.add('hide');
+      const tb = document.getElementById('topband'); if (tb) tb.classList.add('hide');
+
+      // Message d’ouverture
+      const cRow = document.getElementById('countdownRow2');
+      cRow.innerHTML = '<div class="banner" style="width:100%;margin:0">La présale #2 est <b>OUVERTE</b> — vous pouvez participer <b>sans minimum</b>.</div>';
     }
 
-    if(Date.now()>=SECOND_SALE_START_UTC){revealSecondSale();}
+    // Si quelqu’un ouvre la page APRÈS l’heure, on révèle immédiatement
+    if (Date.now() >= SECOND_SALE_START_UTC){ revealSecondSale(); }
+
+    /* ===== Sécurisation visuelle de la 1ʳᵉ présale ===== */
+    (function lockFirstSale(){
+      document.getElementById('bar1').style.width = '100%';
+      document.getElementById('raised1').textContent = '20.00 SOL levés / objectif 20 SOL';
+    })();
   </script>
 </body>
 </html>
