@@ -3,15 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FTEAM — Presale #2 (OUVERTE)</title>
+  <title>FTEAM — Annonce prévente finale</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="logo-fteam.png">
 
   <style>
-    :root{--blue:#002395;--white:#fff;--red:#ED2939;--bg:#0b0f19;--card:#12182a;--muted:#b9c6ff99;--line:#2636667a}
+    :root{
+      --blue:#002395;--white:#fff;--red:#ED2939;
+      --bg:#0b0f19;--card:#12182a;--muted:#b9c6ff99;--line:#2636667a;
+      --ok:#0E2A17;--okBorder:#1f6a3b;--warn:#4f0e0e;--warnBorder:#963737;
+    }
     *{box-sizing:border-box}
     body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#e7ecff;background:linear-gradient(135deg,#0b0f19 0%,#0b1328 60%,#0b0f19 100%)}
     .wrap{max-width:980px;margin:0 auto;padding:16px}
@@ -22,209 +26,141 @@
     .pill span{display:inline-block;background:#0d1330;padding:6px 10px;border-radius:999px;font-weight:700;letter-spacing:.3px}
     h1{font-size:clamp(24px,5vw,38px);line-height:1.1;margin:6px 0 0}
     .sub{opacity:.85;font-size:14px}
+
     .card{background:linear-gradient(180deg,#111a38,#0b1328);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 12px 30px #0006;margin-top:14px}
     .row{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
     .kpi{flex:1 1 160px;background:#0f1530;border:1px solid #2a386b66;padding:10px 12px;border-radius:12px}
     .kpi b{display:block}
     .muted{color:var(--muted);font-size:13px}
-    .input{display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#0d1430}
-    .input input{flex:1;padding:12px 12px;color:#eef3ff;background:transparent;border:none;outline:none;font-size:14px}
-    .input .copy{background:#111a3d;color:#cfe0ff;border-left:1px solid #2a386b66;font-size:14px}
-    .btn{cursor:pointer;border:none;border-radius:12px;padding:12px 14px;font-weight:800;color:#0c1330;background:linear-gradient(90deg,var(--blue),var(--white),var(--red));box-shadow:0 6px 18px #0007;font-size:14px}
-    .btn[disabled]{opacity:.5;cursor:not-allowed;filter:grayscale(40%)}
-    .links a{color:#9ecbff;text-decoration:underline}
-    .bar{height:10px;background:#0e1430;border-radius:10px;overflow:hidden;border:1px solid #2a386b66}
-    .bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%}
-    .banner{background:#0E2A17;border:1px solid #1f6a3b;color:#CFF8D2;font-weight:700;padding:8px 12px;border-radius:10px;margin:10px 0 0;font-size:14px}
-    .topband{
-      position:sticky; top:0; z-index:999;
-      background:linear-gradient(90deg,#0d381a,#0f612b);
-      color:#d7ffe0; border-bottom:1px solid #1f6a3b80; padding:8px 12px; text-align:center;
-      font-weight:700; font-size:13px;
+
+    .banner{
+      background:#0E2A17;border:1px solid var(--okBorder);color:#CFF8D2;
+      font-weight:700;padding:10px 12px;border-radius:10px;margin:10px 0 0;font-size:14px
     }
-    .topband small{display:block; font-weight:600; opacity:.95}
+    .banner.warn{
+      background:var(--warn); border-color:var(--warnBorder); color:#ffd7d7;
+    }
+
+    .btn{
+      cursor:pointer;border:none;border-radius:12px;padding:12px 14px;
+      font-weight:800;color:#0c1330;background:linear-gradient(90deg,var(--blue),var(--white),var(--red));
+      box-shadow:0 6px 18px #0007;font-size:14px
+    }
+    .btn[disabled]{opacity:.55;cursor:not-allowed;filter:grayscale(40%)}
+    .ghost{background:#0f1530;border:1px solid #2a386b66;color:#cfe0ff}
+
+    .count{font-size:22px;font-weight:800;margin-top:4px}
     footer{margin:24px 0 6px}
   </style>
 </head>
 <body>
-  <div class="topband">
-    ✅ La présale FTEAM #2 est <b>OUVERTE</b> — participez <b>sans minimum</b>.
-    <small>Prix : <b>1 SOL = 700 000 FTEAM</b> • Objectif : <b>10 SOL</b></small>
-  </div>
-
   <div class="wrap">
     <header>
       <img src="logo-fteam.png" alt="FTEAM">
       <div class="brand">
         <div class="pill"><span>French Team • FTEAM</span></div>
-        <h1>Presale #2 — FTEAM</h1>
-        <div class="sub">This token represents the absolute best French community, which powered the token TDM's meteoric rise in 2024.</div>
+        <h1>Annonce — Prévente finale</h1>
+        <div class="sub">Merci à tous les participants. Place à l’étape suivante !</div>
       </div>
     </header>
 
+    <!-- État des présales 1 & 2 -->
     <section class="card">
-      <h2 style="margin:0 0 6px">Participer à la présale</h2>
+      <h2 style="margin:0 0 6px">Bilan des présales</h2>
+      <div class="banner">✅ Les présales <b>#1</b> et <b>#2</b> sont <b>clôturées</b> (objectifs atteints). Tous les participants ont <b>reçu leurs FTEAM</b>.</div>
+
+      <div class="row" style="margin-top:10px">
+        <div class="kpi"><span class="muted">Prévente #1</span><b>Clôturée — 20 SOL</b></div>
+        <div class="kpi"><span class="muted">Prévente #2</span><b>Clôturée — 10 SOL</b></div>
+        <div class="kpi"><span class="muted">Statut</span><b>Distribution effectuée</b></div>
+      </div>
+
+      <div class="banner warn">
+        ⚠️ Les adresses d’envoi ne sont plus affichées afin d’éviter tout envoi après clôture.
+      </div>
+    </section>
+
+    <!-- Annonce prévente #3 -->
+    <section class="card">
+      <h2 style="margin:0 0 6px">Prévente #3 — Dernière étape</h2>
       <p class="muted" style="margin-top:0">
-        Envoyez <b>SOL</b> depuis un portefeuille compatible (Phantom / Solflare) vers l’adresse ci-dessous.
-        Les tokens FTEAM seront distribués selon les règles annoncées.
+        La <b>3ᵉ et dernière</b> prévente FTEAM aura lieu dans <b>24 heures</b>, sur une
+        <b>plateforme publique</b> (communication mondiale).
+        Les informations (lien officiel) seront publiées ici à l’ouverture.
       </p>
-      <p class="muted"><b>Aucun minimum d’investissement</b> — vous pouvez participer avec le montant SOL de votre choix.</p>
 
       <div class="row">
-        <div class="kpi"><span class="muted">Prix</span><b>1 SOL = 700 000 FTEAM</b></div>
-        <div class="kpi"><span class="muted">Objectif</span><b>10 SOL</b></div>
+        <div class="kpi" style="flex:1 1 240px">
+          <span class="muted">Début (heure de Paris)</span>
+          <b id="startHuman">—</b>
+        </div>
+        <div class="kpi" style="flex:1 1 240px">
+          <span class="muted">Démarre dans</span>
+          <div class="count" id="count">--j --h --m --s</div>
+        </div>
       </div>
 
       <div class="row" style="align-items:center">
-        <div class="input" style="flex:1">
-          <input id="payAddr" readonly value="A8vTWrQQWsSkHRLqwr4Nrv8xvC8RMZAUAiXfZCkf6ikh" />
-          <button class="copy btn" onclick="copyAddr()">📋 Copier</button>
-        </div>
-        <button id="btnPhantom" class="btn" onclick="openPhantom()">Ouvrir dans Phantom (mobile)</button>
+        <button id="btnLink" class="btn" disabled>Plateforme publique (lien à l’ouverture)</button>
+        <button class="btn ghost" id="btnRefresh" onclick="location.reload()">Actualiser</button>
       </div>
 
-      <div class="links muted" style="margin-top:6px">
-        Si le bouton ne s’ouvre pas : <a id="phantomUL" href="#">ouvrir avec Phantom</a> • <a id="solanaPay" href="#">Solana Pay</a>
-      </div>
-
-      <div class="row" id="progressRow" style="margin-top:8px">
-        <div style="flex:1">
-          <div class="muted">Progression</div>
-          <div class="bar"><i id="bar" style="width:0%"></i></div>
-          <div class="muted" id="raised">5.00 SOL levés / objectif 10 SOL</div>
-          <div class="muted" id="counterErr" style="display:none;margin-top:4px;color:#ffb3b3">
-            ⛔ Compteur indisponible (RPC). Réessaie plus tard.
-          </div>
-        </div>
-      </div>
-
-      <div class="banner">La présale #2 est <b>OUVERTE</b> — vous pouvez participer <b>sans minimum</b>.</div>
+      <div class="banner">ℹ️ Restez connectés : le <b>lien officiel</b> de participation s’affichera ici automatiquement à l’ouverture.</div>
     </section>
 
     <footer class="muted">© <span id="year"></span> French Team — FTEAM</footer>
   </div>
 
 <script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-
-  /* ===== Config ===== */
-  const PRESALE_ADDRESS   = "A8vTWrQQWsSkHRLqwr4Nrv8xvC8RMZAUAiXfZCkf6ikh";
-  const RAISE_GOAL_SOL    = 10;
-  const LAMPORTS_PER_SOL  = 1_000_000_000;
-  const DEFAULT_RAISED    = 5.00;            // affichage immédiat
-  const REFRESH_EVERY_MS  = 90_000;          // 90 s
-  const RPC_URLS = [
-    "https://mainnet.helius-rpc.com/?api-key=8ff2e734-290b-483b-a65b-c90e0ccdb1ca",
-    "https://mainnet.helius-rpc.com/?api-key=bc7aa527-188f-4f0a-bb15-db6bc650b642",
-    "https://api.mainnet-beta.solana.com"
-  ];
-
-  /* ===== Liens Phantom / Solana Pay ===== */
-  function buildLinks(address){
-    const phantomUL = new URL('https://phantom.app/ul/v1/pay');
-    phantomUL.searchParams.set('recipient', address);
-    phantomUL.searchParams.set('network', 'mainnet-beta');
-    phantomUL.searchParams.set('label', 'FTEAM Presale #2');
-    phantomUL.searchParams.set('message', 'Participer à la présale FTEAM #2');
-    const solanaPayHref = 'solana:' + address + '?label=FTEAM%20Presale%20%232&message=Participer';
-    return { phantomUL: phantomUL.toString(), solanaPay: solanaPayHref };
-  }
-  (function initLinks(){
-    const { phantomUL, solanaPay } = buildLinks(PRESALE_ADDRESS);
-    document.getElementById('phantomUL').href = phantomUL;
-    document.getElementById('solanaPay').href = solanaPay;
-  })();
-
-  function copyAddr(){
-    navigator.clipboard.writeText(PRESALE_ADDRESS).then(()=>{
-      const btn=document.querySelector('.copy'); const old=btn.textContent;
-      btn.textContent='✔ Copié'; setTimeout(()=>btn.textContent=old,1200);
-    });
-  }
-
-  function openPhantom(){
-    const { phantomUL, solanaPay } = buildLinks(PRESALE_ADDRESS);
-    const ua = navigator.userAgent || '';
-    const isMobile  = /Android|iPhone|iPad|iPod/i.test(ua);
-    const isAndroid = /Android/i.test(ua);
-    if (isAndroid){
-      const intent = 'intent://' + phantomUL.replace('https://','') + '#Intent;scheme=https;package=app.phantom;end';
-      window.location.href = intent;
-      setTimeout(()=>{ window.location.href = solanaPay; }, 1200);
-      return;
-    }
-    if (isMobile){
-      window.location.href = phantomUL;
-      setTimeout(()=>{ window.location.href = solanaPay; }, 1200);
-    } else {
-      alert("Sur ordinateur : ouvrez l’extension Phantom, cliquez sur Envoyer et collez l’adresse copiée.");
-      window.open('https://phantom.app/','_blank');
-    }
-  }
-
-  /* ===== RPC helper (rotation + timeouts) ===== */
-  const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
-  async function rpc(method, params, {timeoutMs=8000} = {}){
-    let lastErr;
-    for (const url of RPC_URLS){
-      try{
-        const ctrl = new AbortController();
-        const t = setTimeout(()=>ctrl.abort(), timeoutMs);
-        const r = await fetch(url, {
-          method:"POST",
-          headers:{"content-type":"application/json"},
-          body:JSON.stringify({jsonrpc:"2.0",id:1,method,params}),
-          signal: ctrl.signal
-        });
-        clearTimeout(t);
-        if(!r.ok) throw new Error(`HTTP ${r.status}`);
-        const j = await r.json();
-        if(j.error) throw new Error(`RPC ${j.error.code}: ${j.error.message}`);
-        return j.result;
-      }catch(e){
-        lastErr = e;
-        await sleep(200);
-      }
-    }
-    throw lastErr || new Error("RPC failed");
-  }
-
-  /* ===== Compteur basé sur le SOLDE (robuste & rapide) ===== */
-  function setProgressUI(raised){
-    const pct = Math.min(100,(raised/RAISE_GOAL_SOL)*100);
-    document.getElementById("raised").textContent =
-      `${raised.toFixed(2)} SOL levés / objectif ${RAISE_GOAL_SOL} SOL`;
-    document.getElementById("bar").style.width = pct.toFixed(1)+"%";
-  }
-
-  async function readRaisedByBalance(){
-    const res = await rpc("getBalance", [PRESALE_ADDRESS, {commitment:"confirmed"}]);
-    const lamports = (res && typeof res.value==="number") ? res.value : 0;
-    return lamports / LAMPORTS_PER_SOL;
-  }
-
-  async function updateProgress(){
+  // ————— Utilitaires —————
+  const fmtParis = (d) => {
     try{
-      document.getElementById("counterErr").style.display="none";
-      const raised = await readRaisedByBalance();
-      if (Number.isFinite(raised)) {
-        setProgressUI(raised);
-      } else {
-        throw new Error("balance NaN");
+      return new Intl.DateTimeFormat('fr-FR',{
+        timeZone:'Europe/Paris',
+        weekday:'short', day:'2-digit', month:'short', year:'numeric',
+        hour:'2-digit', minute:'2-digit'
+      }).format(d).replace(',', '');
+    }catch{ return d.toLocaleString(); }
+  };
+
+  // ————— Configuration —————
+  // Départ dans 24h à partir du chargement (tu peux remplacer par une date fixe si tu veux)
+  const START_TS = Date.now() + 24*60*60*1000;
+  const START_DATE = new Date(START_TS);
+
+  // Si tu veux mettre un lien dès que ça ouvre, renseigne-le ici (sinon on laisse désactivé)
+  const PUBLIC_PLATFORM_URL = ""; // ex: "https://launchpad.exemple.com/fteam"
+
+  // ————— Initialisation UI —————
+  document.getElementById('year').textContent = new Date().getFullYear();
+  document.getElementById('startHuman').textContent = fmtParis(START_DATE);
+
+  const elCount   = document.getElementById('count');
+  const elBtnLink = document.getElementById('btnLink');
+
+  function updateCountdown(){
+    const now = Date.now();
+    let diff = Math.max(0, START_TS - now);
+    const d = Math.floor(diff/86400000); diff%=86400000;
+    const h = Math.floor(diff/3600000);  diff%=3600000;
+    const m = Math.floor(diff/60000);    diff%=60000;
+    const s = Math.floor(diff/1000);
+    elCount.textContent = `${String(d).padStart(2,'0')}j ${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`;
+
+    if (now >= START_TS){
+      // Ouverture : activer le bouton + définir le lien si on l’a
+      elBtnLink.disabled = false;
+      if (PUBLIC_PLATFORM_URL){
+        elBtnLink.onclick = () => window.open(PUBLIC_PLATFORM_URL, '_blank');
+      }else{
+        elBtnLink.onclick = () => alert("Le lien sera publié ici très prochainement. Revenez dans quelques instants.");
       }
-    }catch(e){
-      // on garde l’affichage courant, on n’affiche l’erreur que si rien n’a jamais été affiché
-      const hasBar = document.getElementById("bar").style.width !== "0%";
-      if (!hasBar) document.getElementById("counterErr").style.display="block";
-      console.warn("Compteur (balance) erreur:", e);
+      clearInterval(timer);
     }
   }
 
-  // Valeur immédiate pour rassurer
-  setProgressUI(DEFAULT_RAISED);
-  // Lecture réelle maintenant puis toutes les 90 s
-  updateProgress();
-  setInterval(updateProgress, REFRESH_EVERY_MS);
+  const timer = setInterval(updateCountdown, 1000);
+  updateCountdown();
 </script>
 </body>
 </html>
