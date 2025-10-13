@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FTEAM — Presale</title>
+  <title>FTEAM — Presale #2 (OUVERTE)</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,9 +22,7 @@
     .pill span{display:inline-block;background:#0d1330;padding:6px 10px;border-radius:999px;font-weight:700;letter-spacing:.3px}
     h1{font-size:clamp(24px,5vw,38px);line-height:1.1;margin:6px 0 0}
     .sub{opacity:.85;font-size:14px}
-    .grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px}
-    @media(min-width:860px){.grid{grid-template-columns:1.2fr .8fr}}
-    .card{background:linear-gradient(180deg,#111a38,#0b1328);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 12px 30px #0006}
+    .card{background:linear-gradient(180deg,#111a38,#0b1328);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 12px 30px #0006;margin-top:14px}
     .row{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
     .kpi{flex:1 1 160px;background:#0f1530;border:1px solid #2a386b66;padding:10px 12px;border-radius:12px}
     .kpi b{display:block}
@@ -37,29 +35,22 @@
     .links a{color:#9ecbff;text-decoration:underline}
     .bar{height:10px;background:#0e1430;border-radius:10px;overflow:hidden;border:1px solid #2a386b66}
     .bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%}
-    .banner{background:#11331f;color:#c9ffd6;font-weight:700;padding:8px 12px;border-radius:10px;border:1px solid #1f6a3b;margin:10px 0 0;font-size:14px}
-    .banner.red{background:#8b0b1a;color:#fff;border-color:#ff9aa9}
-    .banner small{display:block;font-weight:600;opacity:.95}
-    ul.steps{padding-left:18px}
-    ul.steps li{margin:8px 0}
-    hr.line{border:0;border-top:1px solid var(--line);margin:14px 0}
-
-    /* Bandeau supérieur */
+    .banner{background:#0E2A17;border:1px solid #1f6a3b;color:#CFF8D2;font-weight:700;padding:8px 12px;border-radius:10px;margin:10px 0 0;font-size:14px}
     .topband{
       position:sticky; top:0; z-index:999;
-      background:linear-gradient(90deg,#3a0a0a,#5b0b12);
-      color:#ffd9d9; border-bottom:1px solid #ff9aa980; padding:8px 12px; text-align:center;
+      background:linear-gradient(90deg,#0d381a,#0f612b);
+      color:#d7ffe0; border-bottom:1px solid #1f6a3b80; padding:8px 12px; text-align:center;
       font-weight:700; font-size:13px;
     }
     .topband small{display:block; font-weight:600; opacity:.95}
-    .hide{display:none!important}
+    footer{margin:24px 0 6px}
   </style>
 </head>
 <body>
-  <!-- Bandeau d’annonce (disparaît à l’ouverture) -->
-  <div id="topband" class="topband">
-    ⚠️ Nouvelle présale FTEAM #2 : <b>lundi 13 oct. 2025 — 20:00 (heure de Paris)</b>.
-    <small>Prix : <b>1 SOL = 700 000 FTEAM</b> • Objectif : <b>10 SOL</b> • <b>Pas de minimum requis</b>.</small>
+  <!-- Bandeau ouverture -->
+  <div class="topband">
+    ✅ La présale FTEAM #2 est <b>OUVERTE</b> — participez <b>sans minimum</b>.
+    <small>Prix : <b>1 SOL = 700 000 FTEAM</b> • Objectif : <b>10 SOL</b></small>
   </div>
 
   <div class="wrap">
@@ -67,302 +58,207 @@
       <img src="logo-fteam.png" alt="FTEAM">
       <div class="brand">
         <div class="pill"><span>French Team • FTEAM</span></div>
-        <h1>Presale officielle FTEAM</h1>
+        <h1>Presale #2 — FTEAM</h1>
         <div class="sub">This token represents the absolute best French community, which powered the token TDM's meteoric rise in 2024.</div>
       </div>
     </header>
 
-    <div class="grid">
-      <!-- Carte 1 : Résumé 1ère présale (terminée) -->
-      <section class="card" id="firstSaleCard">
-        <h2 style="margin:0 0 6px">Prévente #1 — Terminée ✅</h2>
-        <div class="banner">
-          Objectif atteint. Les envois vers l’adresse précédente sont désormais <u>désactivés</u>.
-          <small>Les FTEAM seront distribués selon les règles annoncées. Merci à tous !</small>
-        </div>
+    <section class="card">
+      <h2 style="margin:0 0 6px">Participer à la présale</h2>
+      <p class="muted" style="margin-top:0">
+        Envoyez <b>SOL</b> depuis un portefeuille compatible (Phantom / Solflare) vers l’adresse ci-dessous.
+        Les tokens FTEAM seront distribués selon les règles annoncées.
+      </p>
+      <p class="muted"><b>Aucun minimum d’investissement</b> — vous pouvez participer avec le montant SOL de votre choix.</p>
 
-        <div class="row" id="liveKpi1">
-          <div class="kpi"><span class="muted">Prix</span><b>1 SOL = 1 000 000 FTEAM</b></div>
-          <div class="kpi"><span class="muted">Objectif</span><b>20 SOL • 20 000 000 FTEAM</b></div>
-          <div class="kpi"><span class="muted">Statut</span><b>100% atteint</b></div>
-        </div>
+      <div class="row">
+        <div class="kpi"><span class="muted">Prix</span><b>1 SOL = 700 000 FTEAM</b></div>
+        <div class="kpi"><span class="muted">Objectif</span><b>10 SOL</b></div>
+      </div>
 
-        <div class="row" id="progressRow1">
-          <div style="flex:1">
-            <div class="muted">Progression</div>
-            <div class="bar"><i id="bar1" style="width:100%"></i></div>
-            <div class="muted" id="raised1">20.00 SOL levés / objectif 20 SOL</div>
+      <!-- Adresse + actions -->
+      <div class="row" style="align-items:center">
+        <div class="input" style="flex:1">
+          <input id="payAddr" readonly value="A8vTWrQQWsSkHRLqwr4Nrv8xvC8RMZAUAiXfZCkf6ikh" />
+          <button class="copy btn" onclick="copyAddr()">📋 Copier</button>
+        </div>
+        <button id="btnPhantom" class="btn" onclick="openPhantom()">Ouvrir dans Phantom (mobile)</button>
+      </div>
+
+      <div class="links muted" style="margin-top:6px">
+        Si le bouton ne s’ouvre pas : <a id="phantomUL" href="#">ouvrir avec Phantom</a> • <a id="solanaPay" href="#">Solana Pay</a>
+      </div>
+
+      <!-- Progression -->
+      <div class="row" id="progressRow" style="margin-top:8px">
+        <div style="flex:1">
+          <div class="muted">Progression</div>
+          <div class="bar"><i id="bar" style="width:0%"></i></div>
+          <div class="muted" id="raised">Calcul…</div>
+          <div class="muted" id="counterErr" style="display:none;margin-top:4px;color:#ffb3b3">
+            ⛔ Compteur indisponible (RPC). Réessaie plus tard.
           </div>
         </div>
-      </section>
+      </div>
 
-      <!-- Carte 2 : Deuxième présale -->
-      <aside class="card" id="secondSaleCard">
-        <h2 style="margin:0 0 6px">Prévente #2 — Annonce</h2>
-        <p class="muted" style="margin-top:0">
-          Une <b>deuxième présale</b> aura lieu dans moins de 24h, avec de nouveaux paramètres :
-        </p>
+      <div class="banner">La présale #2 est <b>OUVERTE</b> — vous pouvez participer <b>sans minimum</b>.</div>
+    </section>
 
-        <div class="row" id="liveKpi2">
-          <div class="kpi"><span class="muted">Prix</span><b>1 SOL = 700 000 FTEAM</b></div>
-          <div class="kpi"><span class="muted">Objectif</span><b>10 SOL</b></div>
-          <div class="kpi"><span class="muted">Début</span><b>lun. 13 oct. 2025 • 20:00 (Paris)</b></div>
-        </div>
-
-        <!-- Message visible dès maintenant -->
-        <p class="muted" style="margin:6px 0 0;">
-          <b>Aucun minimum d’investissement</b> — vous pourrez participer avec le montant SOL de votre choix dès l’ouverture.
-        </p>
-
-        <div class="row" id="countdownRow2" style="margin-top:6px">
-          <div style="flex:1">
-            <div class="muted">Débute dans</div>
-            <div id="count2" style="font-weight:800;font-size:24px;margin-top:2px">--:--:--</div>
-          </div>
-        </div>
-
-        <hr class="line">
-
-        <!-- Bloc d’envoi #2 : masqué jusqu’au début -->
-        <div id="sendBlock2" class="hide">
-          <p class="muted" style="margin:8px 0 10px">
-            Envoyez <b>SOL</b> depuis Phantom/Solflare vers l’adresse ci-dessous.
-            <br><b>Aucun minimum d’investissement</b> — participez avec le montant SOL de votre choix.
-          </p>
-
-          <div class="row" style="align-items:center">
-            <div class="input" style="flex:1">
-              <input id="payAddr2" readonly value="" />
-              <button class="copy btn" onclick="copyAddr('#payAddr2')">📋 Copier</button>
-            </div>
-            <button id="btnPhantom2" class="btn" onclick="openPhantom2()">Ouvrir dans Phantom (mobile)</button>
-          </div>
-
-          <div class="links muted" style="margin-top:6px">
-            Si le bouton ne s’ouvre pas : <a id="phantomUL2" href="#">ouvrir avec Phantom</a> • <a id="solanaPay2" href="#">Solana Pay</a>
-          </div>
-        </div>
-
-        <!-- Message avant ouverture (disparaît à l’ouverture) -->
-        <div id="preOpenMsg" class="banner red">
-          L’adresse de participation sera révélée à l’heure exacte d’ouverture.
-          <small>Merci de ne rien envoyer avant le lancement officiel.</small>
-        </div>
-
-        <!-- Progression #2 (affichée à l’ouverture) -->
-        <div id="progress2" class="row hide" style="margin-top:8px">
-          <div style="flex:1">
-            <div class="muted">Progression</div>
-            <div class="bar"><i id="bar2" style="width:0%"></i></div>
-            <div class="muted" id="raised2">0.00 SOL levés / objectif 10 SOL</div>
-            <div class="muted" id="counterErr2" style="display:none;margin-top:4px;color:#ffb3b3">
-              ⛔ Compteur indisponible (RPC). Réessaie plus tard.
-            </div>
-          </div>
-        </div>
-      </aside>
-    </div>
-
-    <footer class="muted" style="margin:24px 0 6px">
-      © <span id="year"></span> French Team — FTEAM
-    </footer>
+    <footer class="muted">© <span id="year"></span> French Team — FTEAM</footer>
   </div>
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Début officiel : lundi 13 octobre 2025, 20:00 heure de Paris = 18:00:00 UTC
-    const SECOND_SALE_START_UTC = new Date("2025-10-13T18:00:00Z").getTime();
-    const SECOND_WALLET = "A8vTWrQQWsSkHRLqwr4Nrv8xvC8RMZAUAiXfZCkf6ikh";
+  /* ===== Constantes ===== */
+  const PRESALE_ADDRESS = "A8vTWrQQWsSkHRLqwr4Nrv8xvC8RMZAUAiXfZCkf6ikh";
+  const RAISE_GOAL_SOL  = 10;
+  const LAMPORTS_PER_SOL = 1_000_000_000;
 
-    /* ===== Helpers ===== */
-    function copyAddr(selOrId){
-      const el = typeof selOrId==="string" ? document.querySelector(selOrId) : selOrId;
-      if(!el) return;
-      const v = el.value||el.textContent||"";
-      navigator.clipboard.writeText(v).then(()=>{
-        const btn = el.closest(".row")?.querySelector(".copy");
-        if(btn){ const old = btn.textContent; btn.textContent="✔ Copié"; setTimeout(()=>btn.textContent=old,1200); }
-      });
+  // RPC en rotation (2 clés Helius + fallback public)
+  const RPC_URLS = [
+    "https://mainnet.helius-rpc.com/?api-key=8ff2e734-290b-483b-a65b-c90e0ccdb1ca",
+    "https://mainnet.helius-rpc.com/?api-key=bc7aa527-188f-4f0a-bb15-db6bc650b642",
+    "https://api.mainnet-beta.solana.com"
+  ];
+
+  /* ===== Liens Phantom / Solana Pay ===== */
+  function buildLinks(address){
+    const phantomUL = new URL('https://phantom.app/ul/v1/pay');
+    phantomUL.searchParams.set('recipient', address);
+    phantomUL.searchParams.set('network', 'mainnet-beta');
+    phantomUL.searchParams.set('label', 'FTEAM Presale #2');
+    phantomUL.searchParams.set('message', 'Participer à la présale FTEAM #2');
+    const solanaPayHref = 'solana:' + address + '?label=FTEAM%20Presale%20%232&message=Participer';
+    return { phantomUL: phantomUL.toString(), solanaPay: solanaPayHref };
+  }
+
+  (function initLinks(){
+    const { phantomUL, solanaPay } = buildLinks(PRESALE_ADDRESS);
+    document.getElementById('phantomUL').href = phantomUL;
+    document.getElementById('solanaPay').href = solanaPay;
+  })();
+
+  function copyAddr(){
+    const v = PRESALE_ADDRESS;
+    navigator.clipboard.writeText(v).then(()=>{
+      const btn=document.querySelector('.copy'); const old=btn.textContent;
+      btn.textContent='✔ Copié'; setTimeout(()=>btn.textContent=old,1200);
+    });
+  }
+
+  function openPhantom(){
+    const { phantomUL, solanaPay } = buildLinks(PRESALE_ADDRESS);
+    const ua = navigator.userAgent || '';
+    const isMobile  = /Android|iPhone|iPad|iPod/i.test(ua);
+    const isAndroid = /Android/i.test(ua);
+    if (isAndroid){
+      const intent = 'intent://' + phantomUL.replace('https://','') + '#Intent;scheme=https;package=app.phantom;end';
+      window.location.href = intent;
+      setTimeout(()=>{ window.location.href = solanaPay; }, 1200);
+      return;
     }
-    function fmt(n){ return String(n).padStart(2,"0"); }
-
-    /* ===== Compte à rebours #2 ===== */
-    function updateCountdown2(){
-      const now = Date.now();
-      if (now >= SECOND_SALE_START_UTC){
-        revealSecondSale();
-        return;
-      }
-      let diff = Math.max(0, SECOND_SALE_START_UTC - now);
-      const d = Math.floor(diff/86400000); diff%=86400000;
-      const h = Math.floor(diff/3600000);  diff%=3600000;
-      const m = Math.floor(diff/60000);    diff%=60000;
-      const s = Math.floor(diff/1000);
-      document.getElementById('count2').textContent =
-        `${fmt(d)}j ${fmt(h)}h ${fmt(m)}m ${fmt(s)}s`;
+    if (isMobile){
+      window.location.href = phantomUL;
+      setTimeout(()=>{ window.location.href = solanaPay; }, 1200);
+    } else {
+      alert("Sur ordinateur : ouvrez l’extension Phantom, cliquez sur Envoyer et collez l’adresse copiée.");
+      window.open('https://phantom.app/','_blank');
     }
-    setInterval(updateCountdown2, 1000); updateCountdown2();
+  }
 
-    /* ===== Liens Phantom / Solana Pay ===== */
-    function buildLinksFor(address){
-      const phantomUL = new URL('https://phantom.app/ul/v1/pay');
-      phantomUL.searchParams.set('recipient', address);
-      phantomUL.searchParams.set('network', 'mainnet-beta');
-      phantomUL.searchParams.set('label', 'FTEAM Presale #2');
-      phantomUL.searchParams.set('message', 'Participer à la présale FTEAM #2');
-      const solanaPayHref = 'solana:' + address + '?label=FTEAM%20Presale%20%232&message=Participer';
-      return { phantomUL: phantomUL.toString(), solanaPay: solanaPayHref };
-    }
-    function openPhantom2(){
-      const address = document.getElementById('payAddr2').value;
-      if(!address) return;
-      const { phantomUL, solanaPay } = buildLinksFor(address);
-      const ua = navigator.userAgent || '';
-      const isMobile  = /Android|iPhone|iPad|iPod/i.test(ua);
-      const isAndroid = /Android/i.test(ua);
-      if (isAndroid){
-        const intent = 'intent://' + phantomUL.replace('https://','') + '#Intent;scheme=https;package=app.phantom;end';
-        window.location.href = intent;
-        setTimeout(()=>{ window.location.href = solanaPay; }, 1200);
-        return;
-      }
-      if (isMobile){
-        window.location.href = phantomUL;
-        setTimeout(()=>{ window.location.href = solanaPay; }, 1200);
-      } else {
-        alert("Sur ordinateur, ouvrez l’extension Phantom et collez l’adresse.");
-        window.open('https://phantom.app/','_blank');
-      }
-    }
-
-    /* ===== Révélation auto à l’heure ===== */
-    let revealed = false;
-    function revealSecondSale(){
-      if (revealed) return; revealed = true;
-
-      // Adresse & liens
-      const addrEl = document.getElementById('payAddr2');
-      addrEl.value = SECOND_WALLET;
-      const { phantomUL, solanaPay } = buildLinksFor(SECOND_WALLET);
-      document.getElementById('phantomUL2').href = phantomUL;
-      document.getElementById('solanaPay2').href = solanaPay;
-
-      // Affiche le bloc d’envoi, masque l’alerte et le bandeau
-      document.getElementById('sendBlock2').classList.remove('hide');
-      document.getElementById('preOpenMsg').classList.add('hide');
-      const tb = document.getElementById('topband'); if (tb) tb.classList.add('hide');
-
-      // Message d’ouverture
-      const cRow = document.getElementById('countdownRow2');
-      cRow.innerHTML = '<div class="banner" style="width:100%;margin:0">La présale #2 est <b>OUVERTE</b> — vous pouvez participer <b>sans minimum</b>.</div>';
-
-      // Démarre le compteur on-chain
-      startCounter2();
-    }
-
-    // Si quelqu’un ouvre la page APRÈS l’heure, on révèle immédiatement
-    if (Date.now() >= SECOND_SALE_START_UTC){ revealSecondSale(); }
-
-    /* ===== Sécurisation visuelle de la 1ʳᵉ présale ===== */
-    (function lockFirstSale(){
-      document.getElementById('bar1').style.width = '100%';
-      document.getElementById('raised1').textContent = '20.00 SOL levés / objectif 20 SOL';
-    })();
-
-    /* ====== Compteur #2 (RPC Helius + fallback) ====== */
-    const RAISE_GOAL_SOL_2 = 10;
-    const LAMPORTS_PER_SOL = 1_000_000_000;
-    const RPC_URLS = [
-      "https://mainnet.helius-rpc.com/?api-key=bc7aa527-188f-4f0a-bb15-db6bc650b642",
-      "https://api.mainnet-beta.solana.com"
-    ];
-    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
-
-    async function rpc(method, params){
-      let lastErr;
-      for (const url of RPC_URLS){
-        try{
-          const r = await fetch(url, {
-            method: "POST",
-            headers: {"content-type": "application/json"},
-            body: JSON.stringify({jsonrpc:"2.0",id:1,method,params})
-          });
-          if(!r.ok) throw new Error(`HTTP ${r.status}`);
-          const j = await r.json();
-          if(j.error) throw new Error(`RPC ${j.error.code}: ${j.error.message}`);
-          return j.result;
-        }catch(e){ lastErr = e; }
-      }
-      throw lastErr || new Error("RPC failed");
-    }
-
-    async function* signaturesForAddress(address, sinceMs){
-      let before = null;
-      while(true){
-        const res = await rpc("getSignaturesForAddress", [address, {limit:1000, before}]);
-        if(!res || !res.length) break;
-        for(const s of res) yield s;
-        before = res[res.length-1].signature;
-
-        const lastTs = (res[res.length-1].blockTime||0)*1000;
-        if(sinceMs && lastTs && lastTs < sinceMs) break;
-
+  /* ===== RPC helper (rotation + timeouts) ===== */
+  const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
+  async function rpc(method, params, {timeoutMs=9000} = {}){
+    let lastErr;
+    for (const url of RPC_URLS){
+      try{
+        const ctrl = new AbortController();
+        const t = setTimeout(()=>ctrl.abort(), timeoutMs);
+        const r = await fetch(url, {
+          method:"POST",
+          headers:{"content-type":"application/json"},
+          body:JSON.stringify({jsonrpc:"2.0",id:1,method,params}),
+          signal: ctrl.signal
+        });
+        clearTimeout(t);
+        if(!r.ok) throw new Error(`HTTP ${r.status}`);
+        const j = await r.json();
+        if(j.error) throw new Error(`RPC ${j.error.code}: ${j.error.message}`);
+        return j.result;
+      }catch(e){
+        lastErr = e;
+        // petite pause avant de tester l'URL suivante
         await sleep(250);
       }
     }
+    throw lastErr || new Error("RPC failed");
+  }
 
-    async function computeRaisedSOL_2(){
-      let lamportsIn = 0;
-      const sigs = [];
+  /* ===== Lecture des transactions entrantes vers l’adresse ===== */
+  async function* signaturesForAddress(address){
+    let before = null;
+    while(true){
+      const res = await rpc("getSignaturesForAddress", [address, {limit:1000, before}]);
+      if(!res || !res.length) break;
+      for(const s of res) yield s;
+      before = res[res.length-1].signature;
+      await sleep(250);
+    }
+  }
 
-      for await (const s of signaturesForAddress(SECOND_WALLET, SECOND_SALE_START_UTC)){
-        const tsMs = (s.blockTime||0)*1000;
-        if(tsMs && tsMs < SECOND_SALE_START_UTC) break;
-        if(s.err) continue;
-        sigs.push(s.signature);
-        if(sigs.length >= 1500) break;
-      }
+  async function computeRaisedSOL(){
+    let lamportsIn = 0;
+    const sigs = [];
 
-      for(let i=0;i<sigs.length;i+=100){
-        const chunk = sigs.slice(i,i+100);
-        const txs = await rpc("getParsedTransactions", [chunk, {maxSupportedTransactionVersion:0}]);
-        for(const tx of txs||[]){
-          if(!tx || tx.meta?.err) continue;
-          const insts = tx.transaction?.message?.instructions || [];
-          for(const ins of insts){
-            const info = ins.parsed?.info;
-            if(ins.program==="system" && ins.parsed?.type==="transfer" && info?.destination===SECOND_WALLET){
-              lamportsIn += Number(info.lamports||0);
-            }
+    // On récupère un gros batch de signatures récentes
+    for await (const s of signaturesForAddress(PRESALE_ADDRESS)){
+      if(s.err) continue;
+      sigs.push(s.signature);
+      if(sigs.length >= 1500) break;
+    }
+
+    // Puis on lit les transactions par paquets
+    for(let i=0;i<sigs.length;i+=100){
+      const chunk = sigs.slice(i,i+100);
+      const txs = await rpc("getParsedTransactions", [chunk, {maxSupportedTransactionVersion:0}]);
+      for(const tx of txs||[]){
+        if(!tx || tx.meta?.err) continue;
+        const insts = tx.transaction?.message?.instructions || [];
+        for(const ins of insts){
+          const info = ins.parsed?.info;
+          if(ins.program==="system" && ins.parsed?.type==="transfer" && info?.destination===PRESALE_ADDRESS){
+            lamportsIn += Number(info.lamports||0);
           }
         }
-        await sleep(250);
       }
-
-      return lamportsIn / LAMPORTS_PER_SOL;
+      await sleep(200);
     }
 
-    async function updateRaisedUI2(){
-      try{
-        const raised = await computeRaisedSOL_2();
-        const pct = Math.min(100,(raised/RAISE_GOAL_SOL_2)*100);
-        document.getElementById("raised2").textContent =
-          `${raised.toFixed(2)} SOL levés / objectif ${RAISE_GOAL_SOL_2} SOL`;
-        document.getElementById("bar2").style.width = pct.toFixed(1)+"%";
-        document.getElementById("counterErr2").style.display = "none";
-      }catch(e){
-        document.getElementById("counterErr2").style.display = "block";
-        console.warn("Compteur #2 erreur:", e);
-      }
-    }
+    return lamportsIn / LAMPORTS_PER_SOL;
+  }
 
-    function startCounter2(){
-      const p2 = document.getElementById('progress2');
-      if(p2) p2.classList.remove('hide');
-      updateRaisedUI2();
-      setInterval(updateRaisedUI2, 60_000);
+  function setProgressUI(raised){
+    const pct = Math.min(100,(raised/RAISE_GOAL_SOL)*100);
+    document.getElementById("raised").textContent =
+      `${raised.toFixed(2)} SOL levés / objectif ${RAISE_GOAL_SOL} SOL`;
+    document.getElementById("bar").style.width = pct.toFixed(1)+"%";
+  }
+
+  async function updateProgress(){
+    try{
+      const raised = await computeRaisedSOL();
+      setProgressUI(raised);
+      document.getElementById("counterErr").style.display="none";
+    }catch(e){
+      document.getElementById("counterErr").style.display="block";
+      console.warn("Compteur erreur:", e);
     }
-  </script>
+  }
+
+  // Lancement : mise à jour immédiate puis toutes les 60 s
+  updateProgress();
+  setInterval(updateProgress, 60_000);
+</script>
 </body>
 </html>
