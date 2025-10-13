@@ -29,7 +29,7 @@
     .muted{color:var(--muted);font-size:13px}
     .input{display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#0d1430}
     .input input{flex:1;padding:12px 12px;color:#eef3ff;background:transparent;border:none;outline:none;font-size:14px}
-    .input .copy{background:#111a3d;color:#cfe0ff;border-left:1px solid var(--line);font-size:14px}
+    .input .copy{background:#111a3d;color:#cfe0ff;border-left:1px solid #2a386b66;font-size:14px}
     .btn{cursor:pointer;border:none;border-radius:12px;padding:12px 14px;font-weight:800;color:#0c1330;background:linear-gradient(90deg,var(--blue),var(--white),var(--red));box-shadow:0 6px 18px #0007;font-size:14px}
     .btn[disabled]{opacity:.5;cursor:not-allowed;filter:grayscale(40%)}
     .links a{color:#9ecbff;text-decoration:underline}
@@ -47,7 +47,6 @@
   </style>
 </head>
 <body>
-  <!-- Bandeau ouverture -->
   <div class="topband">
     ✅ La présale FTEAM #2 est <b>OUVERTE</b> — participez <b>sans minimum</b>.
     <small>Prix : <b>1 SOL = 700 000 FTEAM</b> • Objectif : <b>10 SOL</b></small>
@@ -76,7 +75,6 @@
         <div class="kpi"><span class="muted">Objectif</span><b>10 SOL</b></div>
       </div>
 
-      <!-- Adresse + actions -->
       <div class="row" style="align-items:center">
         <div class="input" style="flex:1">
           <input id="payAddr" readonly value="A8vTWrQQWsSkHRLqwr4Nrv8xvC8RMZAUAiXfZCkf6ikh" />
@@ -89,7 +87,6 @@
         Si le bouton ne s’ouvre pas : <a id="phantomUL" href="#">ouvrir avec Phantom</a> • <a id="solanaPay" href="#">Solana Pay</a>
       </div>
 
-      <!-- Progression -->
       <div class="row" id="progressRow" style="margin-top:8px">
         <div style="flex:1">
           <div class="muted">Progression</div>
@@ -115,6 +112,9 @@
   const RAISE_GOAL_SOL  = 10;
   const LAMPORTS_PER_SOL = 1_000_000_000;
 
+  // Montant affiché immédiatement avant première lecture on-chain
+  const DEFAULT_RAISED_SOL = 5.00;
+
   // RPC en rotation (2 clés Helius + fallback public)
   const RPC_URLS = [
     "https://mainnet.helius-rpc.com/?api-key=8ff2e734-290b-483b-a65b-c90e0ccdb1ca",
@@ -132,7 +132,6 @@
     const solanaPayHref = 'solana:' + address + '?label=FTEAM%20Presale%20%232&message=Participer';
     return { phantomUL: phantomUL.toString(), solanaPay: solanaPayHref };
   }
-
   (function initLinks(){
     const { phantomUL, solanaPay } = buildLinks(PRESALE_ADDRESS);
     document.getElementById('phantomUL').href = phantomUL;
@@ -140,8 +139,7 @@
   })();
 
   function copyAddr(){
-    const v = PRESALE_ADDRESS;
-    navigator.clipboard.writeText(v).then(()=>{
+    navigator.clipboard.writeText(PRESALE_ADDRESS).then(()=>{
       const btn=document.querySelector('.copy'); const old=btn.textContent;
       btn.textContent='✔ Copié'; setTimeout(()=>btn.textContent=old,1200);
     });
@@ -188,14 +186,13 @@
         return j.result;
       }catch(e){
         lastErr = e;
-        // petite pause avant de tester l'URL suivante
         await sleep(250);
       }
     }
     throw lastErr || new Error("RPC failed");
   }
 
-  /* ===== Lecture des transactions entrantes vers l’adresse ===== */
+  /* ===== Lecture des transactions entrantes ===== */
   async function* signaturesForAddress(address){
     let before = null;
     while(true){
@@ -203,22 +200,18 @@
       if(!res || !res.length) break;
       for(const s of res) yield s;
       before = res[res.length-1].signature;
-      await sleep(250);
+      await sleep(200);
     }
   }
 
-  async function computeRaisedSOL(){
+  async function computeRaisedSOL_viaTxScan(){
     let lamportsIn = 0;
     const sigs = [];
-
-    // On récupère un gros batch de signatures récentes
     for await (const s of signaturesForAddress(PRESALE_ADDRESS)){
       if(s.err) continue;
       sigs.push(s.signature);
       if(sigs.length >= 1500) break;
     }
-
-    // Puis on lit les transactions par paquets
     for(let i=0;i<sigs.length;i+=100){
       const chunk = sigs.slice(i,i+100);
       const txs = await rpc("getParsedTransactions", [chunk, {maxSupportedTransactionVersion:0}]);
@@ -232,10 +225,16 @@
           }
         }
       }
-      await sleep(200);
+      await sleep(150);
     }
-
     return lamportsIn / LAMPORTS_PER_SOL;
+  }
+
+  // Fallback : prend le solde du wallet (utile si aucune sortie et peu d’instructions complexes)
+  async function computeRaisedSOL_viaBalance(){
+    const res = await rpc("getBalance", [PRESALE_ADDRESS, {commitment:"confirmed"}]);
+    const lamports = (res && typeof res.value==="number") ? res.value : 0;
+    return lamports / LAMPORTS_PER_SOL;
   }
 
   function setProgressUI(raised){
@@ -247,16 +246,32 @@
 
   async function updateProgress(){
     try{
-      const raised = await computeRaisedSOL();
-      setProgressUI(raised);
       document.getElementById("counterErr").style.display="none";
+
+      // 1) essai via scan des transactions
+      let raised = await computeRaisedSOL_viaTxScan();
+
+      // 2) si zéro ou échec de lecture, on tente via solde (utile au démarrage)
+      if (!Number.isFinite(raised) || raised <= 0){
+        try{
+          const balRaised = await computeRaisedSOL_viaBalance();
+          if (Number.isFinite(balRaised) && balRaised > raised) raised = balRaised;
+        }catch(_){}
+      }
+
+      if (!Number.isFinite(raised)) throw new Error("raised NaN");
+      setProgressUI(raised);
     }catch(e){
+      // on affiche l’erreur uniquement si aucune méthode n’a marché
       document.getElementById("counterErr").style.display="block";
       console.warn("Compteur erreur:", e);
     }
   }
 
-  // Lancement : mise à jour immédiate puis toutes les 60 s
+  // 1) Affichage immédiat d’un chiffre de départ pour rassurer
+  setProgressUI(DEFAULT_RAISED_SOL);
+
+  // 2) Lancement du vrai compteur : maintenant puis toutes les 60 s
   updateProgress();
   setInterval(updateProgress, 60_000);
 </script>
