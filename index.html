@@ -143,10 +143,22 @@
           </div>
         </div>
 
-        <!-- Message avant ouverture -->
+        <!-- Message avant ouverture (disparaît à l’ouverture) -->
         <div id="preOpenMsg" class="banner red">
           L’adresse de participation sera révélée à l’heure exacte d’ouverture.
           <small>Merci de ne rien envoyer avant le lancement officiel.</small>
+        </div>
+
+        <!-- Progression #2 (affichée à l’ouverture) -->
+        <div id="progress2" class="row hide" style="margin-top:8px">
+          <div style="flex:1">
+            <div class="muted">Progression</div>
+            <div class="bar"><i id="bar2" style="width:0%"></i></div>
+            <div class="muted" id="raised2">0.00 SOL levés / objectif 10 SOL</div>
+            <div class="muted" id="counterErr2" style="display:none;margin-top:4px;color:#ffb3b3">
+              ⛔ Compteur indisponible (RPC). Réessaie plus tard.
+            </div>
+          </div>
         </div>
       </aside>
     </div>
@@ -244,6 +256,9 @@
       // Message d’ouverture
       const cRow = document.getElementById('countdownRow2');
       cRow.innerHTML = '<div class="banner" style="width:100%;margin:0">La présale #2 est <b>OUVERTE</b> — vous pouvez participer <b>sans minimum</b>.</div>';
+
+      // Démarre le compteur on-chain
+      startCounter2();
     }
 
     // Si quelqu’un ouvre la page APRÈS l’heure, on révèle immédiatement
@@ -254,6 +269,100 @@
       document.getElementById('bar1').style.width = '100%';
       document.getElementById('raised1').textContent = '20.00 SOL levés / objectif 20 SOL';
     })();
+
+    /* ====== Compteur #2 (RPC Helius + fallback) ====== */
+    const RAISE_GOAL_SOL_2 = 10;
+    const LAMPORTS_PER_SOL = 1_000_000_000;
+    const RPC_URLS = [
+      "https://mainnet.helius-rpc.com/?api-key=bc7aa527-188f-4f0a-bb15-db6bc650b642",
+      "https://api.mainnet-beta.solana.com"
+    ];
+    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+    async function rpc(method, params){
+      let lastErr;
+      for (const url of RPC_URLS){
+        try{
+          const r = await fetch(url, {
+            method: "POST",
+            headers: {"content-type": "application/json"},
+            body: JSON.stringify({jsonrpc:"2.0",id:1,method,params})
+          });
+          if(!r.ok) throw new Error(`HTTP ${r.status}`);
+          const j = await r.json();
+          if(j.error) throw new Error(`RPC ${j.error.code}: ${j.error.message}`);
+          return j.result;
+        }catch(e){ lastErr = e; }
+      }
+      throw lastErr || new Error("RPC failed");
+    }
+
+    async function* signaturesForAddress(address, sinceMs){
+      let before = null;
+      while(true){
+        const res = await rpc("getSignaturesForAddress", [address, {limit:1000, before}]);
+        if(!res || !res.length) break;
+        for(const s of res) yield s;
+        before = res[res.length-1].signature;
+
+        const lastTs = (res[res.length-1].blockTime||0)*1000;
+        if(sinceMs && lastTs && lastTs < sinceMs) break;
+
+        await sleep(250);
+      }
+    }
+
+    async function computeRaisedSOL_2(){
+      let lamportsIn = 0;
+      const sigs = [];
+
+      for await (const s of signaturesForAddress(SECOND_WALLET, SECOND_SALE_START_UTC)){
+        const tsMs = (s.blockTime||0)*1000;
+        if(tsMs && tsMs < SECOND_SALE_START_UTC) break;
+        if(s.err) continue;
+        sigs.push(s.signature);
+        if(sigs.length >= 1500) break;
+      }
+
+      for(let i=0;i<sigs.length;i+=100){
+        const chunk = sigs.slice(i,i+100);
+        const txs = await rpc("getParsedTransactions", [chunk, {maxSupportedTransactionVersion:0}]);
+        for(const tx of txs||[]){
+          if(!tx || tx.meta?.err) continue;
+          const insts = tx.transaction?.message?.instructions || [];
+          for(const ins of insts){
+            const info = ins.parsed?.info;
+            if(ins.program==="system" && ins.parsed?.type==="transfer" && info?.destination===SECOND_WALLET){
+              lamportsIn += Number(info.lamports||0);
+            }
+          }
+        }
+        await sleep(250);
+      }
+
+      return lamportsIn / LAMPORTS_PER_SOL;
+    }
+
+    async function updateRaisedUI2(){
+      try{
+        const raised = await computeRaisedSOL_2();
+        const pct = Math.min(100,(raised/RAISE_GOAL_SOL_2)*100);
+        document.getElementById("raised2").textContent =
+          `${raised.toFixed(2)} SOL levés / objectif ${RAISE_GOAL_SOL_2} SOL`;
+        document.getElementById("bar2").style.width = pct.toFixed(1)+"%";
+        document.getElementById("counterErr2").style.display = "none";
+      }catch(e){
+        document.getElementById("counterErr2").style.display = "block";
+        console.warn("Compteur #2 erreur:", e);
+      }
+    }
+
+    function startCounter2(){
+      const p2 = document.getElementById('progress2');
+      if(p2) p2.classList.remove('hide');
+      updateRaisedUI2();
+      setInterval(updateRaisedUI2, 60_000);
+    }
   </script>
 </body>
 </html>
