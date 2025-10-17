@@ -3,21 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FTEAM — Annonce prévente finale</title>
+  <title>FTEAM — Prévente finale officielle</title>
 
+  <meta name="description" content="Prévente finale officielle FTEAM sur PinkSale. Historique des préventes #1 & #2, lien direct PinkSale, compte à rebours jusqu'à la clôture." />
+  <link rel="icon" type="image/png" href="logo-fteam.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/png" href="logo-fteam.png">
 
   <style>
     :root{
       --blue:#002395;--white:#fff;--red:#ED2939;
       --bg:#0b0f19;--card:#12182a;--muted:#b9c6ff99;--line:#2636667a;
-      --ok:#0E2A17;--okBorder:#1f6a3b;--warn:#4f0e0e;--warnBorder:#963737;
+      --ok:#0E2A17;--okBorder:#1f6a3b;--accent:#1a2b58;
     }
     *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#e7ecff;background:linear-gradient(135deg,#0b0f19 0%,#0b1328 60%,#0b0f19 100%)}
+    body{
+      margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:#e7ecff;background:linear-gradient(135deg,#0b0f19 0%,#0b1328 60%,#0b0f19 100%);
+    }
     .wrap{max-width:980px;margin:0 auto;padding:16px}
     header{display:flex;align-items:center;gap:12px}
     header img{width:56px;height:56px;border-radius:12px;background:#000;object-fit:cover;border:1px solid #2a386b66}
@@ -27,30 +31,39 @@
     h1{font-size:clamp(24px,5vw,38px);line-height:1.1;margin:6px 0 0}
     .sub{opacity:.85;font-size:14px}
 
-    .card{background:linear-gradient(180deg,#111a38,#0b1328);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 12px 30px #0006;margin-top:14px}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px}
+    @media(min-width:900px){.grid{grid-template-columns:1.2fr .8fr}}
+
+    .card{
+      background:linear-gradient(180deg,#111a38,#0b1328);
+      border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 12px 30px #0006
+    }
     .row{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
-    .kpi{flex:1 1 160px;background:#0f1530;border:1px solid #2a386b66;padding:10px 12px;border-radius:12px}
+    .kpi{flex:1 1 180px;background:#0f1530;border:1px solid #2a386b66;padding:10px 12px;border-radius:12px}
     .kpi b{display:block}
     .muted{color:var(--muted);font-size:13px}
 
+    .btn{
+      cursor:pointer;border:none;border-radius:12px;padding:12px 16px;font-weight:800;
+      color:#0c1330;background:linear-gradient(90deg,var(--blue),var(--white),var(--red));
+      box-shadow:0 6px 18px #0007;font-size:15px; text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:8px
+    }
+    .btn.ghost{background:#0f1530;color:#cfe0ff;border:1px solid #2a386b66}
+    .btn.block{width:100%}
+
     .banner{
-      background:#0E2A17;border:1px solid var(--okBorder);color:#CFF8D2;
+      background:var(--ok);border:1px solid var(--okBorder);color:#CFF8D2;
       font-weight:700;padding:10px 12px;border-radius:10px;margin:10px 0 0;font-size:14px
     }
-    .banner.warn{
-      background:var(--warn); border-color:var(--warnBorder); color:#ffd7d7;
+    .count{
+      font-size:28px;font-weight:800;margin-top:4px;background:#0f1530;border:1px solid #2a386b66;
+      padding:10px 12px;border-radius:12px;letter-spacing:0.5px
     }
+    .bar{height:10px;background:#0e1430;border-radius:10px;overflow:hidden;border:1px solid #2a386b66}
+    .bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%}
 
-    .btn{
-      cursor:pointer;border:none;border-radius:12px;padding:12px 14px;
-      font-weight:800;color:#0c1330;background:linear-gradient(90deg,var(--blue),var(--white),var(--red));
-      box-shadow:0 6px 18px #0007;font-size:14px
-    }
-    .btn[disabled]{opacity:.55;cursor:not-allowed;filter:grayscale(40%)}
-    .ghost{background:#0f1530;border:1px solid #2a386b66;color:#cfe0ff}
-
-    .count{font-size:22px;font-weight:800;margin-top:4px}
     footer{margin:24px 0 6px}
+    a.link{color:#9ecbff;text-decoration:underline}
   </style>
 </head>
 <body>
@@ -59,108 +72,92 @@
       <img src="logo-fteam.png" alt="FTEAM">
       <div class="brand">
         <div class="pill"><span>French Team • FTEAM</span></div>
-        <h1>Annonce — Prévente finale</h1>
-        <div class="sub">Merci à tous les participants. Place à l’étape suivante !</div>
+        <h1>Prévente finale officielle — FTEAM</h1>
+        <div class="sub">This token represents the absolute best French community, which powered the token TDM's meteoric rise in 2024.</div>
       </div>
     </header>
 
-    <!-- État des présales 1 & 2 -->
-    <section class="card">
-      <h2 style="margin:0 0 6px">Bilan des présales</h2>
-      <div class="banner">✅ Les présales <b>#1</b> et <b>#2</b> sont <b>clôturées</b> (objectifs atteints). Tous les participants ont <b>reçu leurs FTEAM</b>.</div>
+    <div class="grid">
+      <!-- Colonne principale -->
+      <section class="card">
+        <h2 style="margin:0 0 6px">Prévente #3 — En cours sur PinkSale</h2>
+        <p class="muted" style="margin-top:0">
+          La <b>prévente finale</b> FTEAM se déroule actuellement sur PinkSale. Rejoignez-nous via le lien officiel ci-dessous.
+        </p>
 
-      <div class="row" style="margin-top:10px">
-        <div class="kpi"><span class="muted">Prévente #1</span><b>Clôturée — 20 SOL</b></div>
-        <div class="kpi"><span class="muted">Prévente #2</span><b>Clôturée — 10 SOL</b></div>
-        <div class="kpi"><span class="muted">Statut</span><b>Distribution effectuée</b></div>
-      </div>
-
-      <div class="banner warn">
-        ⚠️ Les adresses d’envoi ne sont plus affichées afin d’éviter tout envoi après clôture.
-      </div>
-    </section>
-
-    <!-- Annonce prévente #3 -->
-    <section class="card">
-      <h2 style="margin:0 0 6px">Prévente #3 — Dernière étape</h2>
-      <p class="muted" style="margin-top:0">
-        La <b>3ᵉ et dernière</b> prévente FTEAM aura lieu dans <b>24 heures</b>, sur une
-        <b>plateforme publique</b> (communication mondiale).
-        Les informations (lien officiel) seront publiées ici à l’ouverture.
-      </p>
-
-      <div class="row">
-        <div class="kpi" style="flex:1 1 240px">
-          <span class="muted">Début (heure de Paris)</span>
-          <b id="startHuman">—</b>
+        <div class="row">
+          <div class="kpi"><span class="muted">Dates</span><b>14 → 23 oct. 2025 • 20h (Paris)</b></div>
+          <div class="kpi"><span class="muted">Prix</span><b>1 SOL = 500 000 FTEAM</b></div>
+          <div class="kpi"><span class="muted">Objectif</span><b>60 SOL</b></div>
         </div>
-        <div class="kpi" style="flex:1 1 240px">
-          <span class="muted">Démarre dans</span>
-          <div class="count" id="count">--j --h --m --s</div>
+
+        <a class="btn block" target="_blank" rel="noopener" href="https://www.pinksale.finance/solana/launchpad/CdQXCRLXPq4G1YbnnkK8hT2xQpeGgYTXC5z7e7gFYYdT">
+          🚀 Participer sur PinkSale
+        </a>
+
+        <div class="row" style="margin-top:12px">
+          <div style="flex:1">
+            <div class="muted">Clôture dans</div>
+            <div id="count" class="count">--j --h --m --s</div>
+          </div>
         </div>
-      </div>
 
-      <div class="row" style="align-items:center">
-        <button id="btnLink" class="btn" disabled>Plateforme publique (lien à l’ouverture)</button>
-        <button class="btn ghost" id="btnRefresh" onclick="location.reload()">Actualiser</button>
-      </div>
+        <div class="banner" style="margin-top:12px">
+          💎 S’il reste un <b>reliquat de FTEAM</b> à l’issue de la prévente, il sera <b>redistribué</b> entre tous les investisseurs des <b>3 préventes</b>.
+          <div class="muted" style="margin-top:6px;font-weight:600">Pour participer à la redistribution, postez votre <b>adresse Solana (Phantom)</b> sur le groupe Telegram officiel.</div>
+        </div>
+      </section>
 
-      <div class="banner">ℹ️ Restez connectés : le <b>lien officiel</b> de participation s’affichera ici automatiquement à l’ouverture.</div>
-    </section>
+      <!-- Colonne latérale : historique -->
+      <aside class="card">
+        <h3 style="margin:0 0 6px">Historique des préventes</h3>
+        <div class="row">
+          <div class="kpi"><span class="muted">Prévente #1</span><b>Clôturée — 20 SOL</b></div>
+          <div class="kpi"><span class="muted">Prévente #2</span><b>Clôturée — 10 SOL</b></div>
+          <div class="kpi"><span class="muted">Statut</span><b>Distribution effectuée</b></div>
+        </div>
+        <hr style="border:0;border-top:1px solid var(--line);margin:10px 0">
+        <p class="muted" style="margin:8px 0 0">
+          Merci à toute la communauté <b>French Team 🇫🇷</b> pour votre soutien.  
+          Suivez nos annonces sur X / Telegram pour la communication mondiale.
+        </p>
+      </aside>
+    </div>
 
     <footer class="muted">© <span id="year"></span> French Team — FTEAM</footer>
   </div>
 
 <script>
-  // ————— Utilitaires —————
-  const fmtParis = (d) => {
-    try{
-      return new Intl.DateTimeFormat('fr-FR',{
-        timeZone:'Europe/Paris',
-        weekday:'short', day:'2-digit', month:'short', year:'numeric',
-        hour:'2-digit', minute:'2-digit'
-      }).format(d).replace(',', '');
-    }catch{ return d.toLocaleString(); }
-  };
-
-  // ————— Configuration —————
-  // Départ dans 24h à partir du chargement (tu peux remplacer par une date fixe si tu veux)
-  const START_TS = Date.now() + 24*60*60*1000;
-  const START_DATE = new Date(START_TS);
-
-  // Si tu veux mettre un lien dès que ça ouvre, renseigne-le ici (sinon on laisse désactivé)
-  const PUBLIC_PLATFORM_URL = ""; // ex: "https://launchpad.exemple.com/fteam"
-
-  // ————— Initialisation UI —————
+  // Année dynamique
   document.getElementById('year').textContent = new Date().getFullYear();
-  document.getElementById('startHuman').textContent = fmtParis(START_DATE);
 
-  const elCount   = document.getElementById('count');
-  const elBtnLink = document.getElementById('btnLink');
+  // Clôture officielle : 23 octobre 2025, 20:00 (heure de Paris) = 18:00:00 UTC
+  const END_TS = new Date("2025-10-23T18:00:00Z").getTime();
+
+  function fmt(n){ return String(n).padStart(2,"0"); }
 
   function updateCountdown(){
     const now = Date.now();
-    let diff = Math.max(0, START_TS - now);
+    let diff = Math.max(0, END_TS - now);
     const d = Math.floor(diff/86400000); diff%=86400000;
     const h = Math.floor(diff/3600000);  diff%=3600000;
     const m = Math.floor(diff/60000);    diff%=60000;
     const s = Math.floor(diff/1000);
-    elCount.textContent = `${String(d).padStart(2,'0')}j ${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`;
+    const el = document.getElementById('count');
+    if (el) el.textContent = `${fmt(d)}j ${fmt(h)}h ${fmt(m)}m ${fmt(s)}s`;
 
-    if (now >= START_TS){
-      // Ouverture : activer le bouton + définir le lien si on l’a
-      elBtnLink.disabled = false;
-      if (PUBLIC_PLATFORM_URL){
-        elBtnLink.onclick = () => window.open(PUBLIC_PLATFORM_URL, '_blank');
-      }else{
-        elBtnLink.onclick = () => alert("Le lien sera publié ici très prochainement. Revenez dans quelques instants.");
+    // Après l'heure, remplace le bouton et le texte
+    if (now >= END_TS){
+      const btn = document.querySelector('.btn.block');
+      if (btn){
+        btn.textContent = "La prévente est clôturée";
+        btn.classList.add('ghost');
+        btn.removeAttribute('href');
+        btn.onclick = null;
       }
-      clearInterval(timer);
     }
   }
-
-  const timer = setInterval(updateCountdown, 1000);
-  updateCountdown();
+  setInterval(updateCountdown, 1000); updateCountdown();
 </script>
 </body>
 </html>
